@@ -135,6 +135,15 @@
   .section-title { font-size: 17px; font-weight: 700; margin: 0 0 10px; }
   .strapline { color: var(--text-secondary); font-size: 14px; margin: 2px 0 0; }
 
+  details.section-details summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+  details.section-details summary::-webkit-details-marker { display: none; }
+  details.section-details summary span:first-child { font-size: 17px; font-weight: 700; }
+  details.section-details .chevron { color: var(--text-muted); font-size: 13px; transition: transform 0.15s; }
+  details.section-details[open] .chevron { transform: rotate(180deg); }
+  details.section-details .section-body { margin-top: 12px; }
+  details.section-details:hover summary span:first-child { color: var(--series-1); }
+  .expand-toolbar { display: flex; gap: 8px; margin-bottom: 12px; }
+
   .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 18px; }
   .kpi-tile {
     background: var(--surface-raised); border: 1px solid var(--border); border-left: 4px solid var(--status-neutral);
@@ -266,7 +275,7 @@
 
 <script>
 /* __PACK_DATA__ */
-const PACK_DATA = {"meeting": {"committee": "Enterprise Risk Committee", "feeds_into": "Audit and Risk Committee", "entity": "Sample Holdings Ltd", "cycle_label": "Q2 2026", "meeting_date": "2026-07-24", "location": "Boardroom, Head Office", "chairperson": "Independent Non-Executive Chair", "prepared_by": "Group Risk & Compliance Office", "confidentiality": "Strictly private & confidential — committee use only. Not for onward circulation."}, "key_information": [{"tag": "For Noting", "title": "This is a template cycle", "body": "This pack uses illustrative sample data so the tool can be reviewed end to end. Replace data/pack.yaml with real content before the first live sitting.\n"}, {"tag": "For Decision", "title": "Risk appetite statement re-affirmation", "body": "The Committee is asked to re-affirm the Group risk appetite statement tabled in the Risk Management Report before escalation to the Audit and Risk Committee.\n"}, {"tag": "For Noting", "title": "One extreme-rated risk on the register", "body": "Cloud vendor concentration (RM-014) is rated Extreme. Treatment plan and owner are set out in the Risk Management Report tab.\n"}], "reports": [{"id": "risk_management", "label": "Risk Management Report", "tabled": true, "source_file": "source/risk_management_report.pdf", "strapline": "Enterprise risk register, risk appetite tracking and treatment progress.", "kpis": [{"label": "Total open risks", "value": "19", "status": "neutral"}, {"label": "Extreme-rated", "value": "1", "status": "critical"}, {"label": "High-rated", "value": "4", "status": "serious"}, {"label": "Overdue treatment actions", "value": "3", "status": "warning"}, {"label": "Risk appetite breaches", "value": "1", "status": "critical"}], "sections": [{"heading": "Commentary", "body": "Nineteen risks are tracked on the enterprise risk register across six categories. One risk — cloud vendor concentration (RM-014) — is rated Extreme and sits outside the Board-approved risk appetite for Technology & Cyber. A revised treatment plan is tabled for Committee endorsement.\n"}, {"heading": "Risk register", "risk_matrix": {"items": [{"id": "RM-001", "label": "Key supplier insolvency", "likelihood": 2, "impact": 4, "owner": "Head of Procurement", "status": "Treating"}, {"id": "RM-002", "label": "Payroll system outage", "likelihood": 2, "impact": 3, "owner": "Head of IT", "status": "Treating"}, {"id": "RM-003", "label": "Data breach — customer PII", "likelihood": 2, "impact": 5, "owner": "CISO", "status": "Treating"}, {"id": "RM-004", "label": "Regulatory change — data protection", "likelihood": 3, "impact": 3, "owner": "Head of Compliance", "status": "Monitoring"}, {"id": "RM-005", "label": "Key person dependency — Finance", "likelihood": 3, "impact": 3, "owner": "CFO", "status": "Treating"}, {"id": "RM-006", "label": "Foreign exchange volatility", "likelihood": 3, "impact": 3, "owner": "Group Treasurer", "status": "Monitoring"}, {"id": "RM-007", "label": "Office premises fire/flood", "likelihood": 1, "impact": 3, "owner": "Facilities Manager", "status": "Accepted"}, {"id": "RM-014", "label": "Cloud vendor concentration", "likelihood": 4, "impact": 5, "owner": "CISO", "status": "Treating — overdue"}, {"id": "RM-015", "label": "Interest rate exposure", "likelihood": 3, "impact": 2, "owner": "Group Treasurer", "status": "Monitoring"}, {"id": "RM-017", "label": "Business continuity plan gaps", "likelihood": 2, "impact": 3, "owner": "Head of Operations", "status": "Treating — overdue"}]}}]}, {"id": "compliance", "label": "Compliance Management Report", "tabled": true, "source_file": "source/compliance_management_report.pdf", "strapline": "Status against the compliance obligations register by regulatory area.", "kpis": [{"label": "Obligations tracked", "value": "23", "status": "neutral"}, {"label": "Compliant", "value": "20", "status": "good"}, {"label": "In progress", "value": "2", "status": "warning"}, {"label": "Non-compliant", "value": "1", "status": "critical"}], "sections": [{"heading": "Commentary", "body": "One obligation — the annual data protection impact assessment refresh — is non-compliant, with a remediation plan tabled below. All other obligations are compliant or on track.\n"}, {"heading": "Obligations register", "table": {"columns": ["Area", "Obligation", "Status", "Owner", "Due", "Notes"], "rows": [["Data Protection", "Annual DPIA refresh", "Non-compliant", "DPO", "2026-06-30", "Overdue — revised target 2026-08-31"], ["Data Protection", "Records of processing register", "Compliant", "DPO", "2026-12-31", "Current"], ["Financial Crime", "AML/CTF policy attestations", "Compliant", "MLRO", "2026-09-30", "Current"], ["Financial Crime", "Sanctions screening review", "In progress", "MLRO", "2026-08-01", "On track"], ["Health & Safety", "Annual H&S audit", "Compliant", "Facilities Manager", "2026-05-31", "Closed out"]]}}]}, {"id": "bcm", "label": "Business Continuity Management Report", "tabled": true, "source_file": "source/business_continuity_management_report.pdf", "strapline": "Business continuity and disaster recovery plan currency and test results.", "kpis": [{"label": "BC plans in scope", "value": "6", "status": "neutral"}, {"label": "Tested in last 12 months", "value": "5", "status": "warning"}, {"label": "Tests passed", "value": "5 / 5", "status": "good"}, {"label": "Overdue tests", "value": "1", "status": "warning"}], "sections": [{"heading": "Commentary", "body": "The Head Office plan test is overdue by one cycle following office relocation; a revised test date has been booked. All other plans were tested in the last twelve months and passed.\n"}, {"heading": "Test schedule", "table": {"columns": ["Plan", "Last tested", "Result", "Next test", "Owner"], "rows": [["Head Office — Building Loss", "2025-01-10", "Overdue", "2026-08-15", "Facilities Manager"], ["Data Centre Failover", "2026-03-04", "Passed", "2027-03-01", "Head of IT"], ["Payroll & Finance Continuity", "2026-02-18", "Passed", "2027-02-01", "CFO"], ["Customer Contact Centre", "2026-04-22", "Passed — minor findings", "2027-04-01", "Head of Operations"]]}}]}, {"id": "whistleblowing", "label": "Whistleblowing Report", "tabled": true, "source_file": "source/whistleblowing_report.pdf", "strapline": "Anonymised summary of speak-up channel activity.", "kpis": [{"label": "Cases received (cycle)", "value": "6", "status": "neutral"}, {"label": "Closed", "value": "4", "status": "good"}, {"label": "Open", "value": "2", "status": "warning"}, {"label": "Beyond 30-day target", "value": "1", "status": "critical"}], "sections": [{"heading": "Commentary", "body": "Six matters were raised through the speak-up channel this cycle. Four are closed; two remain open, of which one has exceeded the 30-day resolution target.\n"}, {"heading": "Reports by category", "bar_chart": {"unit": "count", "items": [{"label": "HR / Conduct", "value": 2}, {"label": "Financial irregularity", "value": 1}, {"label": "Conflict of interest", "value": 1}, {"label": "H&S", "value": 1}, {"label": "Data protection", "value": 1}]}}]}, {"id": "project_risk", "label": "Project Risk Report", "tabled": true, "source_file": "source/project_risk_report.pdf", "strapline": "Risk exposure across major change and transformation projects.", "kpis": [{"label": "Projects in flight", "value": "6", "status": "neutral"}, {"label": "Extreme / High risk projects", "value": "1", "status": "serious"}, {"label": "On budget", "value": "5 / 6", "status": "warning"}, {"label": "On schedule", "value": "4 / 6", "status": "warning"}], "sections": [{"heading": "Commentary", "body": "The ERP replatform is tracking High risk due to a compressed go-live window and reliance on a single systems integrator. All other projects are tracking within tolerance.\n"}, {"heading": "Project status", "table": {"columns": ["Project", "Phase", "Risk rating", "Top risk", "Budget", "Schedule"], "rows": [["ERP replatform", "Build", "High", "Compressed go-live window / SI dependency", "On budget", "At risk"], ["Office relocation", "Closeout", "Low", "Snagging list outstanding", "On budget", "On schedule"], ["Customer portal rebuild", "Design", "Medium", "Scope creep from stakeholder requests", "On budget", "At risk"], ["Data warehouse migration", "Build", "Medium", "Legacy data quality issues", "Over budget", "On schedule"]]}}]}], "other_items": [{"id": "risk_policy", "title": "Group Risk Management Policy", "category": "Policy", "version": "v4.2", "source_file": "source/other/group_risk_management_policy.pdf", "description": "Annual policy review — no substantive changes since last approval."}, {"id": "bcm_policy", "title": "Business Continuity Policy", "category": "Policy", "version": "v2.1", "source_file": "source/other/business_continuity_policy.pdf", "description": "Updated to reflect new office location and revised RTO/RPO targets."}, {"id": "speakup_procedure", "title": "Speak-Up (Whistleblowing) Procedure", "category": "Procedure", "version": "v3.0", "source_file": "source/other/speak_up_procedure.pdf", "description": "Minor update — added external reporting hotline details."}, {"id": "vendor_assessment", "title": "Third-Party & Vendor Risk Assessment — Cloud Hosting Provider", "category": "Assessment", "version": "Final", "source_file": "source/other/vendor_risk_assessment_cloud_hosting.pdf", "description": "Supports the RM-014 treatment plan discussion."}], "trends": {"note": "This is only the second data point on record — lines will fill out as more cycles are added.", "charts": [{"id": "open_risks", "title": "Open risks on the register", "type": "line", "unit": "count", "series": [{"label": "Total open risks", "points": [{"x": "Q1 2026", "y": 17}, {"x": "Q2 2026", "y": 19}]}, {"label": "Extreme-rated", "points": [{"x": "Q1 2026", "y": 0}, {"x": "Q2 2026", "y": 1}]}]}]}};
+const PACK_DATA = {"meeting": {"committee": "Enterprise Risk Committee", "feeds_into": "Audit and Risk Committee", "entity": "Sample Holdings Ltd", "cycle_label": "Q2 2026", "meeting_date": "2026-07-24", "location": "Boardroom, Head Office", "chairperson": "Independent Non-Executive Chair", "prepared_by": "Group Risk & Compliance Office", "confidentiality": "Strictly private & confidential — committee use only. Not for onward circulation."}, "key_information": [{"tag": "For Noting", "title": "This is a template cycle", "body": "This pack uses illustrative sample data so the tool can be reviewed end to end. Replace data/pack.yaml with real content before the first live sitting.\n"}, {"tag": "For Decision", "title": "Risk appetite statement re-affirmation", "applies_to": ["risk_management"], "body": "The Committee is asked to re-affirm the Group risk appetite statement tabled in the Risk Management Report before escalation to the Audit and Risk Committee.\n"}, {"tag": "For Noting", "title": "One extreme-rated risk on the register", "applies_to": ["risk_management"], "body": "Cloud vendor concentration (RM-014) is rated Extreme. Treatment plan and owner are set out in the Risk Management Report tab.\n"}], "reports": [{"id": "risk_management", "label": "Risk Management Report", "tabled": true, "source_file": "source/risk_management_report.pdf", "strapline": "Enterprise risk register, risk appetite tracking and treatment progress.", "kpis": [{"label": "Total open risks", "value": "19", "status": "neutral"}, {"label": "Extreme-rated", "value": "1", "status": "critical"}, {"label": "High-rated", "value": "4", "status": "serious"}, {"label": "Overdue treatment actions", "value": "3", "status": "warning"}, {"label": "Risk appetite breaches", "value": "1", "status": "critical"}], "sections": [{"heading": "Commentary", "body": "Nineteen risks are tracked on the enterprise risk register across six categories. One risk — cloud vendor concentration (RM-014) — is rated Extreme and sits outside the Board-approved risk appetite for Technology & Cyber. A revised treatment plan is tabled for Committee endorsement.\n"}, {"heading": "Risk register", "risk_matrix": {"items": [{"id": "RM-001", "label": "Key supplier insolvency", "likelihood": 2, "impact": 4, "owner": "Head of Procurement", "status": "Treating"}, {"id": "RM-002", "label": "Payroll system outage", "likelihood": 2, "impact": 3, "owner": "Head of IT", "status": "Treating"}, {"id": "RM-003", "label": "Data breach — customer PII", "likelihood": 2, "impact": 5, "owner": "CISO", "status": "Treating"}, {"id": "RM-004", "label": "Regulatory change — data protection", "likelihood": 3, "impact": 3, "owner": "Head of Compliance", "status": "Monitoring"}, {"id": "RM-005", "label": "Key person dependency — Finance", "likelihood": 3, "impact": 3, "owner": "CFO", "status": "Treating"}, {"id": "RM-006", "label": "Foreign exchange volatility", "likelihood": 3, "impact": 3, "owner": "Group Treasurer", "status": "Monitoring"}, {"id": "RM-007", "label": "Office premises fire/flood", "likelihood": 1, "impact": 3, "owner": "Facilities Manager", "status": "Accepted"}, {"id": "RM-014", "label": "Cloud vendor concentration", "likelihood": 4, "impact": 5, "owner": "CISO", "status": "Treating — overdue"}, {"id": "RM-015", "label": "Interest rate exposure", "likelihood": 3, "impact": 2, "owner": "Group Treasurer", "status": "Monitoring"}, {"id": "RM-017", "label": "Business continuity plan gaps", "likelihood": 2, "impact": 3, "owner": "Head of Operations", "status": "Treating — overdue"}]}}]}, {"id": "compliance", "label": "Compliance Management Report", "tabled": true, "source_file": "source/compliance_management_report.pdf", "strapline": "Status against the compliance obligations register by regulatory area.", "kpis": [{"label": "Obligations tracked", "value": "23", "status": "neutral"}, {"label": "Compliant", "value": "20", "status": "good"}, {"label": "In progress", "value": "2", "status": "warning"}, {"label": "Non-compliant", "value": "1", "status": "critical"}], "sections": [{"heading": "Commentary", "body": "One obligation — the annual data protection impact assessment refresh — is non-compliant, with a remediation plan tabled below. All other obligations are compliant or on track.\n"}, {"heading": "Obligations register", "table": {"columns": ["Area", "Obligation", "Status", "Owner", "Due", "Notes"], "rows": [["Data Protection", "Annual DPIA refresh", "Non-compliant", "DPO", "2026-06-30", "Overdue — revised target 2026-08-31"], ["Data Protection", "Records of processing register", "Compliant", "DPO", "2026-12-31", "Current"], ["Financial Crime", "AML/CTF policy attestations", "Compliant", "MLRO", "2026-09-30", "Current"], ["Financial Crime", "Sanctions screening review", "In progress", "MLRO", "2026-08-01", "On track"], ["Health & Safety", "Annual H&S audit", "Compliant", "Facilities Manager", "2026-05-31", "Closed out"]]}}]}, {"id": "bcm", "label": "Business Continuity Management Report", "tabled": true, "source_file": "source/business_continuity_management_report.pdf", "strapline": "Business continuity and disaster recovery plan currency and test results.", "kpis": [{"label": "BC plans in scope", "value": "6", "status": "neutral"}, {"label": "Tested in last 12 months", "value": "5", "status": "warning"}, {"label": "Tests passed", "value": "5 / 5", "status": "good"}, {"label": "Overdue tests", "value": "1", "status": "warning"}], "sections": [{"heading": "Commentary", "body": "The Head Office plan test is overdue by one cycle following office relocation; a revised test date has been booked. All other plans were tested in the last twelve months and passed.\n"}, {"heading": "Test schedule", "table": {"columns": ["Plan", "Last tested", "Result", "Next test", "Owner"], "rows": [["Head Office — Building Loss", "2025-01-10", "Overdue", "2026-08-15", "Facilities Manager"], ["Data Centre Failover", "2026-03-04", "Passed", "2027-03-01", "Head of IT"], ["Payroll & Finance Continuity", "2026-02-18", "Passed", "2027-02-01", "CFO"], ["Customer Contact Centre", "2026-04-22", "Passed — minor findings", "2027-04-01", "Head of Operations"]]}}]}, {"id": "whistleblowing", "label": "Whistleblowing Report", "tabled": true, "source_file": "source/whistleblowing_report.pdf", "strapline": "Anonymised summary of speak-up channel activity.", "kpis": [{"label": "Cases received (cycle)", "value": "6", "status": "neutral"}, {"label": "Closed", "value": "4", "status": "good"}, {"label": "Open", "value": "2", "status": "warning"}, {"label": "Beyond 30-day target", "value": "1", "status": "critical"}], "sections": [{"heading": "Commentary", "body": "Six matters were raised through the speak-up channel this cycle. Four are closed; two remain open, of which one has exceeded the 30-day resolution target.\n"}, {"heading": "Reports by category", "bar_chart": {"unit": "count", "items": [{"label": "HR / Conduct", "value": 2}, {"label": "Financial irregularity", "value": 1}, {"label": "Conflict of interest", "value": 1}, {"label": "H&S", "value": 1}, {"label": "Data protection", "value": 1}]}}]}, {"id": "project_risk", "label": "Project Risk Report", "tabled": true, "source_file": "source/project_risk_report.pdf", "strapline": "Risk exposure across major change and transformation projects.", "kpis": [{"label": "Projects in flight", "value": "6", "status": "neutral"}, {"label": "Extreme / High risk projects", "value": "1", "status": "serious"}, {"label": "On budget", "value": "5 / 6", "status": "warning"}, {"label": "On schedule", "value": "4 / 6", "status": "warning"}], "sections": [{"heading": "Commentary", "body": "The ERP replatform is tracking High risk due to a compressed go-live window and reliance on a single systems integrator. All other projects are tracking within tolerance.\n"}, {"heading": "Project status", "table": {"columns": ["Project", "Phase", "Risk rating", "Top risk", "Budget", "Schedule"], "rows": [["ERP replatform", "Build", "High", "Compressed go-live window / SI dependency", "On budget", "At risk"], ["Office relocation", "Closeout", "Low", "Snagging list outstanding", "On budget", "On schedule"], ["Customer portal rebuild", "Design", "Medium", "Scope creep from stakeholder requests", "On budget", "At risk"], ["Data warehouse migration", "Build", "Medium", "Legacy data quality issues", "Over budget", "On schedule"]]}}]}], "other_items": [{"id": "risk_policy", "title": "Group Risk Management Policy", "category": "Policy", "version": "v4.2", "source_file": "source/other/group_risk_management_policy.pdf", "description": "Annual policy review — no substantive changes since last approval."}, {"id": "bcm_policy", "title": "Business Continuity Policy", "category": "Policy", "version": "v2.1", "source_file": "source/other/business_continuity_policy.pdf", "description": "Updated to reflect new office location and revised RTO/RPO targets."}, {"id": "speakup_procedure", "title": "Speak-Up (Whistleblowing) Procedure", "category": "Procedure", "version": "v3.0", "source_file": "source/other/speak_up_procedure.pdf", "description": "Minor update — added external reporting hotline details."}, {"id": "vendor_assessment", "title": "Third-Party & Vendor Risk Assessment — Cloud Hosting Provider", "category": "Assessment", "version": "Final", "source_file": "source/other/vendor_risk_assessment_cloud_hosting.pdf", "description": "Supports the RM-014 treatment plan discussion."}], "trends": {"note": "This is only the second data point on record — lines will fill out as more cycles are added.", "charts": [{"id": "open_risks", "title": "Open risks on the register", "type": "line", "unit": "count", "series": [{"label": "Total open risks", "points": [{"x": "Q1 2026", "y": 17}, {"x": "Q2 2026", "y": 19}]}, {"label": "Extreme-rated", "points": [{"x": "Q1 2026", "y": 0}, {"x": "Q2 2026", "y": 1}]}]}]}};
 const PACK_FILES = {};
 /* __END_PACK_DATA__ */
 
@@ -286,6 +295,14 @@ function ratingBand(score) {
 function bandColorVar(band) {
   return {Low:'--risk-low', Medium:'--risk-medium', High:'--risk-high', 'Very High':'--risk-veryhigh', Critical:'--risk-critical'}[band];
 }
+const BAND_SEVERITY = {Low: 0, Medium: 1, High: 2, 'Very High': 3, Critical: 4};
+// Rating shown is whatever the data file states for that item (`rating`), falling
+// back to the score-derived band only if the preparer didn't supply one. This is
+// deliberate: source registers sometimes label two same-scoring risks differently
+// (e.g. a technology risk called "Critical" for qualitative reasons even though its
+// numeric score matches a "Very High" band elsewhere) — the dashboard must not
+// silently overwrite the Committee's own stated rating.
+function itemBand(item) { return item.rating || ratingBand(item.likelihood * item.impact); }
 
 /* ---------- Theme ---------- */
 (function initTheme(){
@@ -390,11 +407,14 @@ function riskMatrixHtml(rm, uid) {
     for (let likelihood = 1; likelihood <= 5; likelihood++) {
       const items = grid[likelihood + '-' + impact] || [];
       const score = likelihood * impact;
-      const band = ratingBand(score);
+      // cell color = most severe stated rating among items sharing this cell
+      const band = items.length
+        ? items.map(itemBand).sort((a,b) => BAND_SEVERITY[b]-BAND_SEVERITY[a])[0]
+        : ratingBand(score);
       const colorVar = bandColorVar(band);
       const labels = items.map(i => esc(i.id)).join(' · ');
       const tipText = items.length
-        ? `${band} (score ${score})<br>` + items.map(i => `${esc(i.id)}: ${esc(i.label)}`).join('<br>')
+        ? `Score ${score}<br>` + items.map(i => `${esc(i.id)} (${esc(itemBand(i))}): ${esc(i.label)}`).join('<br>')
         : `${band} (score ${score}) — no risks in this cell`;
       cells += `<td class="hm-cell" style="background:var(${colorVar})" data-tip="${esc(tipText)}">${labels}</td>`;
     }
@@ -407,9 +427,9 @@ function riskMatrixHtml(rm, uid) {
   const legend = bandOrder.map(b => `<div class="legend-item"><span class="legend-swatch" style="background:var(${bandColorVar(b)})"></span>${b}</div>`).join('');
 
   const tableId = 'rmtbl-' + uid;
-  const sorted = [...rm.items].sort((a,b) => (b.likelihood*b.impact) - (a.likelihood*a.impact));
+  const sorted = [...rm.items].sort((a,b) => BAND_SEVERITY[itemBand(b)] - BAND_SEVERITY[itemBand(a)] || (b.likelihood*b.impact) - (a.likelihood*a.impact));
   const detailRows = sorted.map(i => {
-    const band = ratingBand(i.likelihood*i.impact);
+    const band = itemBand(i);
     return `<tr><td>${esc(i.id)}</td><td>${esc(i.label)}</td><td><span class="status-pill" data-band="${esc(band)}">${esc(band)}</span></td><td>${i.likelihood*i.impact}</td><td>${esc(i.owner)}</td><td>${esc(i.status)}</td></tr>`;
   }).join('');
 
@@ -535,13 +555,32 @@ function trendChartHtml(chart) {
 
 /* ---------- Section renderer (shared by reports + other_items) ---------- */
 function sectionHtml(section) {
-  let html = `<div class="card"><h3 class="section-title">${esc(section.heading)}</h3>`;
-  if (section.body) html += `<p>${esc(section.body).trim()}</p>`;
-  if (section.table) html += tableHtml(section.table);
-  if (section.risk_matrix) html += riskMatrixHtml(section.risk_matrix, chartCounter++);
-  if (section.bar_chart) html += barChartHtml(section.bar_chart);
-  html += `</div>`;
-  return html;
+  let inner = '';
+  if (section.body) inner += `<p>${esc(section.body).trim()}</p>`;
+  if (section.table) inner += tableHtml(section.table);
+  if (section.risk_matrix) inner += riskMatrixHtml(section.risk_matrix, chartCounter++);
+  if (section.bar_chart) inner += barChartHtml(section.bar_chart);
+  return `<details class="card section-details" open>
+    <summary><span>${esc(section.heading)}</span><span class="chevron">▾</span></summary>
+    <div class="section-body">${inner}</div>
+  </details>`;
+}
+
+/* ---------- Key information filtered to a specific report ---------- */
+function keyInfoHtml(item) {
+  return `<div class="card key-info-card">
+    <span class="tag-badge" data-tag="${esc(item.tag)}">${esc(item.tag)}</span>
+    <h3>${esc(item.title)}</h3>
+    <p>${esc(item.body).trim()}</p>
+  </div>`;
+}
+function keyInfoForReportHtml(reportId) {
+  const items = (PACK_DATA.key_information || []).filter(k => (k.applies_to || []).includes(reportId));
+  if (!items.length) return '';
+  return `<div class="card" style="background:var(--page);border-style:dashed;">
+    <h3 class="section-title" style="font-size:14px;color:var(--text-secondary)">For this Committee's attention</h3>
+    ${items.map(keyInfoHtml).join('')}
+  </div>`;
 }
 
 function sourceHtml(sourceFile) {
@@ -560,6 +599,8 @@ function reportPanelHtml(report) {
     ${report.strapline ? `<p class="strapline">${esc(report.strapline)}</p>` : ''}
   </div>`;
 
+  html += keyInfoForReportHtml(report.id);
+
   if (report.tabled === false) {
     html += `<div class="card empty-state">
       <div class="big">Nothing tabled for this report this cycle.</div>
@@ -569,19 +610,23 @@ function reportPanelHtml(report) {
   }
 
   html += kpiGridHtml(report.kpis);
+  if ((report.sections || []).length) {
+    html += `<div class="expand-toolbar">
+      <button class="btn" onclick="setAllDetails('panel-${report.id}', true)">⊕ Expand all</button>
+      <button class="btn" onclick="setAllDetails('panel-${report.id}', false)">⊖ Collapse all</button>
+    </div>`;
+  }
   (report.sections || []).forEach(s => html += sectionHtml(s));
   html += `<div class="card">${sourceHtml(report.source_file)}</div>`;
   return html;
 }
+function setAllDetails(panelId, open) {
+  document.querySelectorAll(`#${panelId} details.section-details`).forEach(d => d.open = open);
+}
 
 /* ---------- Overview tab ---------- */
 function overviewPanelHtml() {
-  const ki = (PACK_DATA.key_information || []).map(k => `
-    <div class="card key-info-card">
-      <span class="tag-badge" data-tag="${esc(k.tag)}">${esc(k.tag)}</span>
-      <h3>${esc(k.title)}</h3>
-      <p>${esc(k.body).trim()}</p>
-    </div>`).join('');
+  const ki = (PACK_DATA.key_information || []).map(keyInfoHtml).join('');
 
   const navCards = PACK_DATA.reports.map(r => {
     const topKpis = (r.kpis || []).slice(0, 3);

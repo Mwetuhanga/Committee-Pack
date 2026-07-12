@@ -35,13 +35,31 @@ rotating set of policies, procedures and one-off items.
    double-click it and it opens in their browser — tabs, search, sortable
    tables, dark mode, and a print/PDF button all work offline.
 
+## Starting the next cycle
+
+There is no background/automated ingestion tool — that is a deliberate
+choice (see "Why data-driven ratings, not computed ones" below). What *is*
+automated is not having to remember the schema from scratch each quarter:
+
+```bash
+python build/new_cycle.py data/pack.yaml data/pack.q3-2026.yaml
+```
+
+This copies the previous file forward, keeps the five report ids/labels and
+the `trends` chart definitions (so you only append one new point per chart),
+and blanks out everything that's expected to change: dates, key information,
+each report's KPIs/sections, and the `other_items` bucket.
+
 ## Structure of the data file
 
 - `meeting` — committee name, what it feeds into, entity, cycle label, date,
   location, confidentiality banner.
-- `key_information` — the "things the Committee needs to know" callouts on
-  the Overview tab, each tagged `For Noting` / `For Decision` / `For
-  Approval`.
+- `key_information` — the "things the Committee needs to know" callouts,
+  each tagged `For Noting` / `For Decision` / `For Approval`. Shown on the
+  Overview tab always; add `applies_to: [report_id, ...]` to also surface an
+  item at the top of that specific report's tab (e.g. a "For Approval" item
+  about BCM shows on both Overview and the Business Continuity tab), so a
+  committee member who jumps straight to one report doesn't miss it.
 - `reports` — a **fixed list of five standing reports** (Risk Management,
   Compliance Management, Business Continuity Management, Whistleblowing,
   Project Risk). These always appear as tabs, cycle to cycle, even if one

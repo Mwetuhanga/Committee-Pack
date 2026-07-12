@@ -135,6 +135,15 @@
   .section-title { font-size: 17px; font-weight: 700; margin: 0 0 10px; }
   .strapline { color: var(--text-secondary); font-size: 14px; margin: 2px 0 0; }
 
+  details.section-details summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+  details.section-details summary::-webkit-details-marker { display: none; }
+  details.section-details summary span:first-child { font-size: 17px; font-weight: 700; }
+  details.section-details .chevron { color: var(--text-muted); font-size: 13px; transition: transform 0.15s; }
+  details.section-details[open] .chevron { transform: rotate(180deg); }
+  details.section-details .section-body { margin-top: 12px; }
+  details.section-details:hover summary span:first-child { color: var(--series-1); }
+  .expand-toolbar { display: flex; gap: 8px; margin-bottom: 12px; }
+
   .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 18px; }
   .kpi-tile {
     background: var(--surface-raised); border: 1px solid var(--border); border-left: 4px solid var(--status-neutral);
@@ -546,13 +555,32 @@ function trendChartHtml(chart) {
 
 /* ---------- Section renderer (shared by reports + other_items) ---------- */
 function sectionHtml(section) {
-  let html = `<div class="card"><h3 class="section-title">${esc(section.heading)}</h3>`;
-  if (section.body) html += `<p>${esc(section.body).trim()}</p>`;
-  if (section.table) html += tableHtml(section.table);
-  if (section.risk_matrix) html += riskMatrixHtml(section.risk_matrix, chartCounter++);
-  if (section.bar_chart) html += barChartHtml(section.bar_chart);
-  html += `</div>`;
-  return html;
+  let inner = '';
+  if (section.body) inner += `<p>${esc(section.body).trim()}</p>`;
+  if (section.table) inner += tableHtml(section.table);
+  if (section.risk_matrix) inner += riskMatrixHtml(section.risk_matrix, chartCounter++);
+  if (section.bar_chart) inner += barChartHtml(section.bar_chart);
+  return `<details class="card section-details" open>
+    <summary><span>${esc(section.heading)}</span><span class="chevron">▾</span></summary>
+    <div class="section-body">${inner}</div>
+  </details>`;
+}
+
+/* ---------- Key information filtered to a specific report ---------- */
+function keyInfoHtml(item) {
+  return `<div class="card key-info-card">
+    <span class="tag-badge" data-tag="${esc(item.tag)}">${esc(item.tag)}</span>
+    <h3>${esc(item.title)}</h3>
+    <p>${esc(item.body).trim()}</p>
+  </div>`;
+}
+function keyInfoForReportHtml(reportId) {
+  const items = (PACK_DATA.key_information || []).filter(k => (k.applies_to || []).includes(reportId));
+  if (!items.length) return '';
+  return `<div class="card" style="background:var(--page);border-style:dashed;">
+    <h3 class="section-title" style="font-size:14px;color:var(--text-secondary)">For this Committee's attention</h3>
+    ${items.map(keyInfoHtml).join('')}
+  </div>`;
 }
 
 function sourceHtml(sourceFile) {
@@ -571,6 +599,8 @@ function reportPanelHtml(report) {
     ${report.strapline ? `<p class="strapline">${esc(report.strapline)}</p>` : ''}
   </div>`;
 
+  html += keyInfoForReportHtml(report.id);
+
   if (report.tabled === false) {
     html += `<div class="card empty-state">
       <div class="big">Nothing tabled for this report this cycle.</div>
@@ -580,19 +610,23 @@ function reportPanelHtml(report) {
   }
 
   html += kpiGridHtml(report.kpis);
+  if ((report.sections || []).length) {
+    html += `<div class="expand-toolbar">
+      <button class="btn" onclick="setAllDetails('panel-${report.id}', true)">⊕ Expand all</button>
+      <button class="btn" onclick="setAllDetails('panel-${report.id}', false)">⊖ Collapse all</button>
+    </div>`;
+  }
   (report.sections || []).forEach(s => html += sectionHtml(s));
   html += `<div class="card">${sourceHtml(report.source_file)}</div>`;
   return html;
 }
+function setAllDetails(panelId, open) {
+  document.querySelectorAll(`#${panelId} details.section-details`).forEach(d => d.open = open);
+}
 
 /* ---------- Overview tab ---------- */
 function overviewPanelHtml() {
-  const ki = (PACK_DATA.key_information || []).map(k => `
-    <div class="card key-info-card">
-      <span class="tag-badge" data-tag="${esc(k.tag)}">${esc(k.tag)}</span>
-      <h3>${esc(k.title)}</h3>
-      <p>${esc(k.body).trim()}</p>
-    </div>`).join('');
+  const ki = (PACK_DATA.key_information || []).map(keyInfoHtml).join('');
 
   const navCards = PACK_DATA.reports.map(r => {
     const topKpis = (r.kpis || []).slice(0, 3);

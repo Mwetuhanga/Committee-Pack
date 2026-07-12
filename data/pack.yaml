@@ -12,6 +12,12 @@
 # who typed it in, which matters for a risk/compliance pack.
 #
 # STRUCTURE NOTES (read this before editing):
+# - Each `key_information` item may carry `applies_to: [report_id, ...]`. Items
+#   with a matching id are shown both on the Overview tab AND at the top of
+#   that report's own tab, so a committee member who jumps straight to (say)
+#   Risk Management still sees the escalation flag without visiting Overview
+#   first. Omit `applies_to` for pack-wide items that should only appear on
+#   Overview.
 # - `reports` is a FIXED list of the five standing committee reports. Tabs for
 #   these always appear in the dashboard nav, even in a cycle where a report
 #   wasn't tabled (set `tabled: false` and it renders as "not tabled this
@@ -52,12 +58,14 @@ key_information:
       sitting.
   - tag: "For Decision"
     title: "Risk appetite statement re-affirmation"
+    applies_to: ["risk_management"]
     body: >
       The Committee is asked to re-affirm the Group risk appetite statement
       tabled in the Risk Management Report before escalation to the Audit and
       Risk Committee.
   - tag: "For Noting"
     title: "One extreme-rated risk on the register"
+    applies_to: ["risk_management"]
     body: >
       Cloud vendor concentration (RM-014) is rated Extreme. Treatment plan and
       owner are set out in the Risk Management Report tab.
