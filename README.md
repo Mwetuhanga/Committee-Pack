@@ -35,6 +35,39 @@ rotating set of policies, procedures and one-off items.
    double-click it and it opens in their browser — tabs, search, sortable
    tables, dark mode, and a print/PDF button all work offline.
 
+## Admin Mode — adjusting Noting/Decision/Approval without re-running Python
+
+Every generated pack has a "🔒 Admin Mode" button in the header. Turning it
+on makes every `For Noting` / `For Decision` / `For Approval` tag clickable
+— click one to cycle it — and reveals an "Export updated pack" button.
+Export rebuilds a brand-new, fully working standalone HTML file with those
+edits baked in, entirely in the browser (no Python needed for a quick tag
+change); that export is what you'd send on to committee members. Edits only
+exist in that open browser tab until exported — closing without exporting
+discards them (the browser will warn you if you try).
+
+This is a soft convenience, not an access-control system: anyone who can
+open the file can turn Admin Mode on, since there is no server to enforce a
+real permission boundary in a file that's emailed around. Keep the "admin"
+copy of a pack somewhere only preparers can get to, and only distribute the
+already-finalised export to the full committee.
+
+Admin Mode currently only edits tags. If you want more fields editable
+in-browser (e.g. KPI values, whether a report was tabled), that's a
+reasonable next step — just ask.
+
+## Ask the pack — offline search assistant
+
+Every pack has a "💬 Ask the pack" button (bottom-right). It searches every
+KPI, section, risk register row, table and other item in the pack and jumps
+you straight to the matching tab and card. This is plain client-side text
+search over the pack's own data, not a conversational LLM — deliberately,
+since the pack is a single file emailed around with no server behind it, and
+embedding a live API key in that file would let anyone who receives it
+extract and misuse it. If you want true conversational Q&A later, that needs
+a backend (auth, rate limiting, key management) — a much bigger build than
+the pack generator itself.
+
 ## Starting the next cycle
 
 There is no background/automated ingestion tool — that is a deliberate

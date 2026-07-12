@@ -55,6 +55,19 @@ def embed_files(paths: set) -> dict:
     return embedded
 
 
+def js_string_literal(value) -> str:
+    """JSON-encode a value for safe embedding inside an inline <script> block.
+
+    A raw `</script` sequence inside a JSON string would terminate the
+    enclosing <script> tag early (the HTML tokenizer doesn't know it's inside
+    a JS string literal), so it must be escaped. This matters most for the
+    embedded template source, which necessarily contains many literal
+    `<script>`/`</script>` tags.
+    """
+    encoded = json.dumps(value, ensure_ascii=False)
+    return encoded.replace("</script", "<\\/script").replace("<!--", "<\\!--")
+
+
 def generate(data_path: Path, output_path: Path) -> None:
     with open(data_path, "r", encoding="utf-8") as f:
         data = yaml.safe_load(f)
@@ -65,13 +78,21 @@ def generate(data_path: Path, output_path: Path) -> None:
     print(f"Found {len(source_paths)} referenced source document(s):")
     embedded = embed_files(source_paths)
 
-    template = TEMPLATE_PATH.read_text(encoding="utf-8")
+    # Captured before any substitution — this is what lets Admin Mode's
+    # "export updated pack" button rebuild a fresh standalone HTML file
+    # entirely client-side, without needing Python again.
+    raw_template = TEMPLATE_PATH.read_text(encoding="utf-8")
 
     title = f"{data['meeting']['entity']} — {data['meeting']['committee']} Pack — {data['meeting']['cycle_label']}"
 
-    output = template.replace("__PACK_TITLE__", title)
-    output = output.replace("__PACK_DATA_JSON__", json.dumps(data, ensure_ascii=False))
-    output = output.replace("__PACK_FILES_JSON__", json.dumps(embedded, ensure_ascii=False))
+    output = raw_template.replace("__PACK_TITLE__", title)
+    output = output.replace("__PACK_DATA_JSON__", json.dumps(data, ensure_ascii=False).replace("</script", "<\\/script"))
+    output = output.replace("__PACK_FILES_JSON__", json.dumps(embedded, ensure_ascii=False).replace("</script", "<\\/script"))
+    # Must be last: the payload itself still contains the other three
+    # placeholder tokens (and this one) as literal text, since it's the
+    # pristine pre-substitution template — an earlier replace() would
+    # corrupt it.
+    output = output.replace("__PACK_TEMPLATE_SOURCE_JSON__", js_string_literal(raw_template))
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(output, encoding="utf-8")
