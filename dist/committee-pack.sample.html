@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Sample Holdings Ltd — Enterprise Risk Committee Pack — Q2 2026</title>
+<style>
+  :root {
+    --surface-1: #fcfcfb;
+    --page: #f9f9f7;
+    --surface-raised: #ffffff;
+    --text-primary: #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted: #898781;
+    --gridline: #e1e0d9;
+    --baseline: #c3c2b7;
+    --border: rgba(11,11,11,0.10);
+    --border-strong: rgba(11,11,11,0.18);
+
+    --series-1: #2a78d6; --series-2: #1baf7a; --series-3: #eda100; --series-4: #008300;
+    --series-5: #4a3aa7; --series-6: #e34948; --series-7: #e87ba4; --series-8: #eb6834;
+
+    --seq-100: #cde2fb; --seq-250: #86b6ef; --seq-450: #2a78d6; --seq-650: #104281;
+
+    --status-good: #0ca30c; --status-good-bg: #eaf7ea;
+    --status-warning: #b5790a; --status-warning-bg: #fff4de;
+    --status-serious: #c1522c; --status-serious-bg: #fdece4;
+    --status-critical: #d03b3b; --status-critical-bg: #fbe9e9;
+    --status-neutral: #52514e; --status-neutral-bg: #eeede8;
+
+    --risk-low: #0ca30c; --risk-medium: #eda100; --risk-high: #eb6834;
+    --risk-veryhigh: #e34948; --risk-critical: #8f1f1f;
+
+    --shadow: 0 1px 2px rgba(11,11,11,0.06), 0 4px 16px rgba(11,11,11,0.06);
+    --radius: 10px;
+    font-synthesis: none;
+  }
+  :root[data-theme="dark"] {
+    --surface-1: #1a1a19; --page: #0d0d0d; --surface-raised: #221f1e;
+    --text-primary: #ffffff; --text-secondary: #c3c2b7; --text-muted: #9b9a94;
+    --gridline: #2c2c2a; --baseline: #383835; --border: rgba(255,255,255,0.12); --border-strong: rgba(255,255,255,0.22);
+    --series-1: #3987e5; --series-2: #199e70; --series-3: #c98500; --series-4: #2fae2f;
+    --series-5: #9085e9; --series-6: #e66767; --series-7: #d55181; --series-8: #d95926;
+    --status-good: #37c93a; --status-good-bg: #12281a;
+    --status-warning: #f0ad2e; --status-warning-bg: #322609;
+    --status-serious: #ee8a63; --status-serious-bg: #33200f;
+    --status-critical: #f0605f; --status-critical-bg: #341313;
+    --status-neutral: #c3c2b7; --status-neutral-bg: #2a2a28;
+    --risk-low: #199e70; --risk-medium: #c98500; --risk-high: #d95926;
+    --risk-veryhigh: #e66767; --risk-critical: #a83a3a;
+    --shadow: 0 1px 2px rgba(0,0,0,0.4), 0 4px 20px rgba(0,0,0,0.4);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --surface-1: #1a1a19; --page: #0d0d0d; --surface-raised: #221f1e;
+      --text-primary: #ffffff; --text-secondary: #c3c2b7; --text-muted: #9b9a94;
+      --gridline: #2c2c2a; --baseline: #383835; --border: rgba(255,255,255,0.12); --border-strong: rgba(255,255,255,0.22);
+      --series-1: #3987e5; --series-2: #199e70; --series-3: #c98500; --series-4: #2fae2f;
+      --series-5: #9085e9; --series-6: #e66767; --series-7: #d55181; --series-8: #d95926;
+      --status-good: #37c93a; --status-good-bg: #12281a;
+      --status-warning: #f0ad2e; --status-warning-bg: #322609;
+      --status-serious: #ee8a63; --status-serious-bg: #33200f;
+      --status-critical: #f0605f; --status-critical-bg: #341313;
+      --status-neutral: #c3c2b7; --status-neutral-bg: #2a2a28;
+      --risk-low: #199e70; --risk-medium: #c98500; --risk-high: #d95926;
+      --risk-veryhigh: #e66767; --risk-critical: #a83a3a;
+      --shadow: 0 1px 2px rgba(0,0,0,0.4), 0 4px 20px rgba(0,0,0,0.4);
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: var(--page);
+    color: var(--text-primary);
+    line-height: 1.5;
+  }
+  a { color: var(--series-1); }
+
+  .app-header {
+    background: var(--surface-1);
+    border-bottom: 1px solid var(--border);
+    padding: 20px clamp(16px, 4vw, 40px);
+  }
+  .confidential-banner {
+    background: var(--status-critical-bg);
+    color: var(--status-critical);
+    font-weight: 600;
+    font-size: 12.5px;
+    letter-spacing: 0.02em;
+    text-align: center;
+    padding: 6px 12px;
+    text-transform: uppercase;
+  }
+  .header-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; margin-top: 14px; }
+  .header-titles h1 { font-size: 22px; margin: 0 0 4px; }
+  .header-titles .committee-line { color: var(--text-secondary); font-size: 14px; margin: 0 0 2px; }
+  .header-titles .meta-line { color: var(--text-muted); font-size: 13px; margin: 0; }
+  .header-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .btn {
+    font: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
+    border: 1px solid var(--border-strong); background: var(--surface-raised); color: var(--text-primary);
+    border-radius: 8px; padding: 8px 14px; display: inline-flex; align-items: center; gap: 6px;
+  }
+  .btn:hover { border-color: var(--series-1); }
+  .search-box {
+    font: inherit; font-size: 13.5px; border: 1px solid var(--border-strong); border-radius: 8px;
+    padding: 8px 12px; background: var(--surface-raised); color: var(--text-primary); min-width: 220px;
+  }
+
+  nav.tabs {
+    position: sticky; top: 0; z-index: 20;
+    background: var(--surface-1); border-bottom: 1px solid var(--border);
+    display: flex; gap: 2px; overflow-x: auto; padding: 0 clamp(16px, 4vw, 40px);
+  }
+  nav.tabs button {
+    font: inherit; font-size: 13.5px; font-weight: 600; white-space: nowrap;
+    background: none; border: none; border-bottom: 3px solid transparent;
+    color: var(--text-secondary); padding: 13px 14px; cursor: pointer;
+  }
+  nav.tabs button:hover { color: var(--text-primary); }
+  nav.tabs button.active { color: var(--series-1); border-bottom-color: var(--series-1); }
+  nav.tabs button .dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-left: 6px; vertical-align: middle; }
+
+  main { max-width: 1180px; margin: 0 auto; padding: 24px clamp(16px, 4vw, 40px) 80px; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .card {
+    background: var(--surface-raised); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 18px 20px; margin-bottom: 16px; box-shadow: var(--shadow);
+  }
+  .section-title { font-size: 17px; font-weight: 700; margin: 0 0 10px; }
+  .strapline { color: var(--text-secondary); font-size: 14px; margin: 2px 0 0; }
+
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 18px; }
+  .kpi-tile {
+    background: var(--surface-raised); border: 1px solid var(--border); border-left: 4px solid var(--status-neutral);
+    border-radius: 8px; padding: 12px 14px;
+  }
+  .kpi-tile[data-status="good"] { border-left-color: var(--status-good); }
+  .kpi-tile[data-status="warning"] { border-left-color: var(--status-warning); }
+  .kpi-tile[data-status="serious"] { border-left-color: var(--status-serious); }
+  .kpi-tile[data-status="critical"] { border-left-color: var(--status-critical); }
+  .kpi-value { font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .kpi-label { font-size: 12.5px; color: var(--text-secondary); margin-top: 2px; }
+  .kpi-note { font-size: 11.5px; color: var(--text-muted); margin-top: 4px; }
+
+  .tag-badge {
+    display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em;
+    padding: 3px 8px; border-radius: 999px; background: var(--status-neutral-bg); color: var(--status-neutral);
+  }
+  .tag-badge[data-tag="For Decision"] { background: var(--status-critical-bg); color: var(--status-critical); }
+  .tag-badge[data-tag="For Approval"] { background: var(--status-warning-bg); color: var(--status-warning); }
+  .tag-badge[data-tag="For Noting"] { background: var(--status-neutral-bg); color: var(--status-neutral); }
+
+  .key-info-card { border-left: 4px solid var(--border-strong); }
+  .key-info-card h3 { margin: 8px 0 4px; font-size: 15px; }
+  .key-info-card p { margin: 0; color: var(--text-secondary); font-size: 14px; }
+
+  .report-nav-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; }
+  .report-nav-card {
+    text-align: left; cursor: pointer; background: var(--surface-raised); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow);
+  }
+  .report-nav-card:hover { border-color: var(--series-1); }
+  .report-nav-card h4 { margin: 0 0 6px; font-size: 14.5px; }
+  .report-nav-card p { margin: 0; font-size: 12.5px; color: var(--text-muted); }
+  .mini-kpis { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+  .mini-kpi { font-size: 12px; }
+  .mini-kpi b { font-variant-numeric: tabular-nums; }
+
+  table.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  table.data-table th, table.data-table td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--gridline); vertical-align: top; }
+  table.data-table th { color: var(--text-secondary); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.02em; cursor: pointer; user-select: none; }
+  table.data-table th:hover { color: var(--text-primary); }
+  table.data-table tbody tr:hover { background: var(--page); }
+  .table-scroll { overflow-x: auto; }
+
+  .status-pill { display: inline-block; font-size: 11.5px; font-weight: 600; padding: 2px 8px; border-radius: 999px; }
+  .status-pill[data-band="Low"] { background: var(--status-good-bg); color: var(--status-good); }
+  .status-pill[data-band="Medium"] { background: var(--status-warning-bg); color: var(--status-warning); }
+  .status-pill[data-band="High"] { background: var(--status-serious-bg); color: var(--status-serious); }
+  .status-pill[data-band="Very High"] { background: var(--status-critical-bg); color: var(--status-critical); }
+  .status-pill[data-band="Critical"] { background: var(--status-critical-bg); color: var(--status-critical); }
+
+  .empty-state { text-align: center; padding: 40px 20px; color: var(--text-muted); }
+  .empty-state .big { font-size: 15px; color: var(--text-secondary); margin-bottom: 4px; }
+
+  .not-tabled-badge { display: inline-block; font-size: 12px; font-weight: 700; color: var(--status-neutral); background: var(--status-neutral-bg); border-radius: 999px; padding: 3px 10px; margin-left: 8px; vertical-align: middle; }
+
+  .chart-toolbar { display: flex; justify-content: flex-end; margin-bottom: 6px; }
+  .chart-toolbar button { font-size: 11.5px; padding: 4px 9px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 10px 16px; font-size: 12px; color: var(--text-secondary); margin: 6px 0 12px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-swatch { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+  .bar-row { display: grid; grid-template-columns: 190px 1fr 64px; align-items: center; gap: 10px; margin-bottom: 6px; }
+  .bar-row .bar-label { font-size: 12.5px; color: var(--text-secondary); text-align: right; }
+  .bar-track { background: var(--gridline); border-radius: 4px; height: 16px; position: relative; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 4px; background: var(--series-1); }
+  .bar-row .bar-value { font-size: 12.5px; font-variant-numeric: tabular-nums; }
+
+  .heatmap-wrap { display: flex; gap: 18px; flex-wrap: wrap; align-items: flex-start; margin-bottom: 14px; }
+  table.heatmap { border-collapse: collapse; }
+  table.heatmap td, table.heatmap th { border: 3px solid var(--surface-1); text-align: center; font-size: 12px; }
+  table.heatmap th { color: var(--text-muted); font-weight: 600; padding: 4px; }
+  .hm-cell { width: 84px; height: 54px; color: #fff; font-weight: 700; font-size: 11.5px; cursor: default; padding: 4px; vertical-align: middle; }
+  .hm-axis-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
+
+  .tooltip {
+    position: fixed; pointer-events: none; background: var(--text-primary); color: var(--page);
+    font-size: 12px; padding: 6px 9px; border-radius: 6px; z-index: 100; max-width: 240px; display: none;
+    box-shadow: var(--shadow);
+  }
+
+  .trend-empty { border: 1px dashed var(--border-strong); border-radius: 8px; padding: 20px; text-align: center; color: var(--text-muted); font-size: 13px; }
+
+  .other-items-toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+  .filter-chip { font-size: 12.5px; font-weight: 600; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--border-strong); background: var(--surface-raised); cursor: pointer; color: var(--text-secondary); }
+  .filter-chip.active { background: var(--series-1); border-color: var(--series-1); color: #fff; }
+  .other-item-card summary { cursor: pointer; font-weight: 700; font-size: 14.5px; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .other-item-card summary::-webkit-details-marker { display: none; }
+  .other-item-card .cat-badge { font-size: 11px; font-weight: 700; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; background: var(--status-neutral-bg); color: var(--status-neutral); white-space: nowrap; }
+  .other-item-meta { font-size: 12px; color: var(--text-muted); margin: 4px 0 10px; }
+  .other-item-desc { font-size: 13.5px; color: var(--text-secondary); margin: 8px 0; }
+  .other-item-card[open] summary { margin-bottom: 10px; }
+
+  .source-link { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 600; margin-top: 6px; }
+  .source-missing { font-size: 12px; color: var(--text-muted); font-style: italic; }
+
+  footer.app-footer { text-align: center; color: var(--text-muted); font-size: 12px; padding: 24px; }
+
+  @media print {
+    nav.tabs, .app-header .header-actions, .search-box, .chart-toolbar, .filter-chip { display: none !important; }
+    .tab-panel { display: block !important; page-break-before: always; }
+    body { background: #fff; }
+  }
+</style>
+</head>
+<body>
+
+<div class="confidential-banner" id="confBanner"></div>
+<header class="app-header">
+  <div class="header-top">
+    <div class="header-titles">
+      <h1 id="hEntity"></h1>
+      <p class="committee-line" id="hCommittee"></p>
+      <p class="meta-line" id="hMeta"></p>
+    </div>
+    <div class="header-actions">
+      <input type="search" class="search-box" id="searchBox" placeholder="Search this pack…">
+      <button class="btn" id="themeToggle" title="Toggle light/dark">🌓 Theme</button>
+      <button class="btn" onclick="window.print()">🖨️ Print / Save PDF</button>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs" id="tabNav"></nav>
+
+<main id="tabPanels"></main>
+
+<footer class="app-footer">Generated committee pack · figures are as entered in the underlying data file, not auto-extracted from source PDFs.</footer>
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+/* __PACK_DATA__ */
+const PACK_DATA = {"meeting": {"committee": "Enterprise Risk Committee", "feeds_into": "Audit and Risk Committee", "entity": "Sample Holdings Ltd", "cycle_label": "Q2 2026", "meeting_date": "2026-07-24", "location": "Boardroom, Head Office", "chairperson": "Independent Non-Executive Chair", "prepared_by": "Group Risk & Compliance Office", "confidentiality": "Strictly private & confidential — committee use only. Not for onward circulation."}, "key_information": [{"tag": "For Noting", "title": "This is a template cycle", "body": "This pack uses illustrative sample data so the tool can be reviewed end to end. Replace data/pack.yaml with real content before the first live sitting.\n"}, {"tag": "For Decision", "title": "Risk appetite statement re-affirmation", "body": "The Committee is asked to re-affirm the Group risk appetite statement tabled in the Risk Management Report before escalation to the Audit and Risk Committee.\n"}, {"tag": "For Noting", "title": "One extreme-rated risk on the register", "body": "Cloud vendor concentration (RM-014) is rated Extreme. Treatment plan and owner are set out in the Risk Management Report tab.\n"}], "reports": [{"id": "risk_management", "label": "Risk Management Report", "tabled": true, "source_file": "source/risk_management_report.pdf", "strapline": "Enterprise risk register, risk appetite tracking and treatment progress.", "kpis": [{"label": "Total open risks", "value": "19", "status": "neutral"}, {"label": "Extreme-rated", "value": "1", "status": "critical"}, {"label": "High-rated", "value": "4", "status": "serious"}, {"label": "Overdue treatment actions", "value": "3", "status": "warning"}, {"label": "Risk appetite breaches", "value": "1", "status": "critical"}], "sections": [{"heading": "Commentary", "body": "Nineteen risks are tracked on the enterprise risk register across six categories. One risk — cloud vendor concentration (RM-014) — is rated Extreme and sits outside the Board-approved risk appetite for Technology & Cyber. A revised treatment plan is tabled for Committee endorsement.\n"}, {"heading": "Risk register", "risk_matrix": {"items": [{"id": "RM-001", "label": "Key supplier insolvency", "likelihood": 2, "impact": 4, "owner": "Head of Procurement", "status": "Treating"}, {"id": "RM-002", "label": "Payroll system outage", "likelihood": 2, "impact": 3, "owner": "Head of IT", "status": "Treating"}, {"id": "RM-003", "label": "Data breach — customer PII", "likelihood": 2, "impact": 5, "owner": "CISO", "status": "Treating"}, {"id": "RM-004", "label": "Regulatory change — data protection", "likelihood": 3, "impact": 3, "owner": "Head of Compliance", "status": "Monitoring"}, {"id": "RM-005", "label": "Key person dependency — Finance", "likelihood": 3, "impact": 3, "owner": "CFO", "status": "Treating"}, {"id": "RM-006", "label": "Foreign exchange volatility", "likelihood": 3, "impact": 3, "owner": "Group Treasurer", "status": "Monitoring"}, {"id": "RM-007", "label": "Office premises fire/flood", "likelihood": 1, "impact": 3, "owner": "Facilities Manager", "status": "Accepted"}, {"id": "RM-014", "label": "Cloud vendor concentration", "likelihood": 4, "impact": 5, "owner": "CISO", "status": "Treating — overdue"}, {"id": "RM-015", "label": "Interest rate exposure", "likelihood": 3, "impact": 2, "owner": "Group Treasurer", "status": "Monitoring"}, {"id": "RM-017", "label": "Business continuity plan gaps", "likelihood": 2, "impact": 3, "owner": "Head of Operations", "status": "Treating — overdue"}]}}]}, {"id": "compliance", "label": "Compliance Management Report", "tabled": true, "source_file": "source/compliance_management_report.pdf", "strapline": "Status against the compliance obligations register by regulatory area.", "kpis": [{"label": "Obligations tracked", "value": "23", "status": "neutral"}, {"label": "Compliant", "value": "20", "status": "good"}, {"label": "In progress", "value": "2", "status": "warning"}, {"label": "Non-compliant", "value": "1", "status": "critical"}], "sections": [{"heading": "Commentary", "body": "One obligation — the annual data protection impact assessment refresh — is non-compliant, with a remediation plan tabled below. All other obligations are compliant or on track.\n"}, {"heading": "Obligations register", "table": {"columns": ["Area", "Obligation", "Status", "Owner", "Due", "Notes"], "rows": [["Data Protection", "Annual DPIA refresh", "Non-compliant", "DPO", "2026-06-30", "Overdue — revised target 2026-08-31"], ["Data Protection", "Records of processing register", "Compliant", "DPO", "2026-12-31", "Current"], ["Financial Crime", "AML/CTF policy attestations", "Compliant", "MLRO", "2026-09-30", "Current"], ["Financial Crime", "Sanctions screening review", "In progress", "MLRO", "2026-08-01", "On track"], ["Health & Safety", "Annual H&S audit", "Compliant", "Facilities Manager", "2026-05-31", "Closed out"]]}}]}, {"id": "bcm", "label": "Business Continuity Management Report", "tabled": true, "source_file": "source/business_continuity_management_report.pdf", "strapline": "Business continuity and disaster recovery plan currency and test results.", "kpis": [{"label": "BC plans in scope", "value": "6", "status": "neutral"}, {"label": "Tested in last 12 months", "value": "5", "status": "warning"}, {"label": "Tests passed", "value": "5 / 5", "status": "good"}, {"label": "Overdue tests", "value": "1", "status": "warning"}], "sections": [{"heading": "Commentary", "body": "The Head Office plan test is overdue by one cycle following office relocation; a revised test date has been booked. All other plans were tested in the last twelve months and passed.\n"}, {"heading": "Test schedule", "table": {"columns": ["Plan", "Last tested", "Result", "Next test", "Owner"], "rows": [["Head Office — Building Loss", "2025-01-10", "Overdue", "2026-08-15", "Facilities Manager"], ["Data Centre Failover", "2026-03-04", "Passed", "2027-03-01", "Head of IT"], ["Payroll & Finance Continuity", "2026-02-18", "Passed", "2027-02-01", "CFO"], ["Customer Contact Centre", "2026-04-22", "Passed — minor findings", "2027-04-01", "Head of Operations"]]}}]}, {"id": "whistleblowing", "label": "Whistleblowing Report", "tabled": true, "source_file": "source/whistleblowing_report.pdf", "strapline": "Anonymised summary of speak-up channel activity.", "kpis": [{"label": "Cases received (cycle)", "value": "6", "status": "neutral"}, {"label": "Closed", "value": "4", "status": "good"}, {"label": "Open", "value": "2", "status": "warning"}, {"label": "Beyond 30-day target", "value": "1", "status": "critical"}], "sections": [{"heading": "Commentary", "body": "Six matters were raised through the speak-up channel this cycle. Four are closed; two remain open, of which one has exceeded the 30-day resolution target.\n"}, {"heading": "Reports by category", "bar_chart": {"unit": "count", "items": [{"label": "HR / Conduct", "value": 2}, {"label": "Financial irregularity", "value": 1}, {"label": "Conflict of interest", "value": 1}, {"label": "H&S", "value": 1}, {"label": "Data protection", "value": 1}]}}]}, {"id": "project_risk", "label": "Project Risk Report", "tabled": true, "source_file": "source/project_risk_report.pdf", "strapline": "Risk exposure across major change and transformation projects.", "kpis": [{"label": "Projects in flight", "value": "6", "status": "neutral"}, {"label": "Extreme / High risk projects", "value": "1", "status": "serious"}, {"label": "On budget", "value": "5 / 6", "status": "warning"}, {"label": "On schedule", "value": "4 / 6", "status": "warning"}], "sections": [{"heading": "Commentary", "body": "The ERP replatform is tracking High risk due to a compressed go-live window and reliance on a single systems integrator. All other projects are tracking within tolerance.\n"}, {"heading": "Project status", "table": {"columns": ["Project", "Phase", "Risk rating", "Top risk", "Budget", "Schedule"], "rows": [["ERP replatform", "Build", "High", "Compressed go-live window / SI dependency", "On budget", "At risk"], ["Office relocation", "Closeout", "Low", "Snagging list outstanding", "On budget", "On schedule"], ["Customer portal rebuild", "Design", "Medium", "Scope creep from stakeholder requests", "On budget", "At risk"], ["Data warehouse migration", "Build", "Medium", "Legacy data quality issues", "Over budget", "On schedule"]]}}]}], "other_items": [{"id": "risk_policy", "title": "Group Risk Management Policy", "category": "Policy", "version": "v4.2", "source_file": "source/other/group_risk_management_policy.pdf", "description": "Annual policy review — no substantive changes since last approval."}, {"id": "bcm_policy", "title": "Business Continuity Policy", "category": "Policy", "version": "v2.1", "source_file": "source/other/business_continuity_policy.pdf", "description": "Updated to reflect new office location and revised RTO/RPO targets."}, {"id": "speakup_procedure", "title": "Speak-Up (Whistleblowing) Procedure", "category": "Procedure", "version": "v3.0", "source_file": "source/other/speak_up_procedure.pdf", "description": "Minor update — added external reporting hotline details."}, {"id": "vendor_assessment", "title": "Third-Party & Vendor Risk Assessment — Cloud Hosting Provider", "category": "Assessment", "version": "Final", "source_file": "source/other/vendor_risk_assessment_cloud_hosting.pdf", "description": "Supports the RM-014 treatment plan discussion."}], "trends": {"note": "This is only the second data point on record — lines will fill out as more cycles are added.", "charts": [{"id": "open_risks", "title": "Open risks on the register", "type": "line", "unit": "count", "series": [{"label": "Total open risks", "points": [{"x": "Q1 2026", "y": 17}, {"x": "Q2 2026", "y": 19}]}, {"label": "Extreme-rated", "points": [{"x": "Q1 2026", "y": 0}, {"x": "Q2 2026", "y": 1}]}]}]}};
+const PACK_FILES = {};
+/* __END_PACK_DATA__ */
+
+const SERIES_COLORS = ['--series-1','--series-2','--series-3','--series-4','--series-5','--series-6','--series-7','--series-8'];
+const cssVar = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmtNum = (n) => Number(n).toLocaleString();
+const fmtCurrency = (n) => 'N$' + Number(n).toLocaleString(undefined, {maximumFractionDigits: 0});
+
+function ratingBand(score) {
+  if (score >= 21) return 'Critical';
+  if (score >= 16) return 'Very High';
+  if (score >= 11) return 'High';
+  if (score >= 6) return 'Medium';
+  return 'Low';
+}
+function bandColorVar(band) {
+  return {Low:'--risk-low', Medium:'--risk-medium', High:'--risk-high', 'Very High':'--risk-veryhigh', Critical:'--risk-critical'}[band];
+}
+
+/* ---------- Theme ---------- */
+(function initTheme(){
+  const saved = localStorage.getItem('pack-theme');
+  if (saved) document.documentElement.setAttribute('data-theme', saved);
+  document.getElementById('themeToggle').addEventListener('click', () => {
+    const cur = document.documentElement.getAttribute('data-theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    const next = cur === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('pack-theme', next);
+  });
+})();
+
+/* ---------- Tooltip ---------- */
+const tooltipEl = document.getElementById('tooltip');
+function showTooltip(evt, html) {
+  tooltipEl.innerHTML = html;
+  tooltipEl.style.display = 'block';
+  const x = evt.clientX + 14, y = evt.clientY + 14;
+  tooltipEl.style.left = Math.min(x, window.innerWidth - 250) + 'px';
+  tooltipEl.style.top = Math.min(y, window.innerHeight - 60) + 'px';
+}
+function hideTooltip() { tooltipEl.style.display = 'none'; }
+document.addEventListener('mousemove', (e) => {
+  const el = e.target.closest('[data-tip]');
+  if (el) showTooltip(e, el.getAttribute('data-tip'));
+  else hideTooltip();
+});
+document.addEventListener('mouseleave', hideTooltip, true);
+
+/* ---------- Header ---------- */
+function renderHeader() {
+  const m = PACK_DATA.meeting;
+  document.getElementById('confBanner').textContent = m.confidentiality || '';
+  document.getElementById('hEntity').textContent = m.entity;
+  document.getElementById('hCommittee').textContent =
+    `${m.committee}${m.feeds_into ? ' · feeds into ' + m.feeds_into : ''}`;
+  const bits = [m.cycle_label, m.meeting_date, m.location].filter(Boolean);
+  document.getElementById('hMeta').textContent = bits.join(' · ');
+  document.title = `${m.entity} — ${m.committee} Pack`;
+}
+
+/* ---------- KPI tiles ---------- */
+function kpiTileHtml(k) {
+  return `<div class="kpi-tile" data-status="${esc(k.status||'neutral')}">
+    <div class="kpi-value">${esc(k.value)}</div>
+    <div class="kpi-label">${esc(k.label)}</div>
+    ${k.note ? `<div class="kpi-note">${esc(k.note)}</div>` : ''}
+  </div>`;
+}
+function kpiGridHtml(kpis) {
+  if (!kpis || !kpis.length) return '';
+  return `<div class="kpi-grid">${kpis.map(kpiTileHtml).join('')}</div>`;
+}
+
+/* ---------- Generic table ---------- */
+let tableCounter = 0;
+function tableHtml(table) {
+  const id = 'tbl-' + (tableCounter++);
+  const rows = table.rows.map(r => `<tr>${r.map(c => `<td>${esc(c)}</td>`).join('')}</tr>`).join('');
+  const headers = table.columns.map((c,i) => `<th data-col="${i}">${esc(c)}</th>`).join('');
+  return `<div class="table-scroll">
+    <table class="data-table" id="${id}">
+      <thead><tr>${headers}</tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+  </div>${table.note ? `<p class="kpi-note">${esc(table.note)}</p>` : ''}
+  <script>attachSort('${id}');<\/script>`;
+}
+function attachSort(tableId) {
+  const table = document.getElementById(tableId);
+  if (!table) return;
+  const tbody = table.querySelector('tbody');
+  table.querySelectorAll('th').forEach((th, idx) => {
+    let dir = 1;
+    th.addEventListener('click', () => {
+      const rows = Array.from(tbody.querySelectorAll('tr'));
+      rows.sort((a,b) => {
+        const av = a.children[idx].textContent.trim();
+        const bv = b.children[idx].textContent.trim();
+        const an = parseFloat(av.replace(/[^0-9.\-]/g,'')), bn = parseFloat(bv.replace(/[^0-9.\-]/g,''));
+        if (!isNaN(an) && !isNaN(bn) && /[0-9]/.test(av)) return (an-bn)*dir;
+        return av.localeCompare(bv)*dir;
+      });
+      dir *= -1;
+      rows.forEach(r => tbody.appendChild(r));
+    });
+  });
+}
+
+/* ---------- Risk matrix (5x5 heatmap) ---------- */
+function riskMatrixHtml(rm, uid) {
+  const grid = {};
+  rm.items.forEach(item => {
+    const key = item.likelihood + '-' + item.impact;
+    (grid[key] = grid[key] || []).push(item);
+  });
+  let rowsHtml = '';
+  for (let impact = 5; impact >= 1; impact--) {
+    let cells = `<th class="hm-axis-label">${impact}</th>`;
+    for (let likelihood = 1; likelihood <= 5; likelihood++) {
+      const items = grid[likelihood + '-' + impact] || [];
+      const score = likelihood * impact;
+      const band = ratingBand(score);
+      const colorVar = bandColorVar(band);
+      const labels = items.map(i => esc(i.id)).join(' · ');
+      const tipText = items.length
+        ? `${band} (score ${score})<br>` + items.map(i => `${esc(i.id)}: ${esc(i.label)}`).join('<br>')
+        : `${band} (score ${score}) — no risks in this cell`;
+      cells += `<td class="hm-cell" style="background:var(${colorVar})" data-tip="${esc(tipText)}">${labels}</td>`;
+    }
+    rowsHtml += `<tr>${cells}</tr>`;
+  }
+  let colHeaders = '<th></th>';
+  for (let l = 1; l <= 5; l++) colHeaders += `<th class="hm-axis-label">${l}</th>`;
+
+  const bandOrder = ['Low','Medium','High','Very High','Critical'];
+  const legend = bandOrder.map(b => `<div class="legend-item"><span class="legend-swatch" style="background:var(${bandColorVar(b)})"></span>${b}</div>`).join('');
+
+  const tableId = 'rmtbl-' + uid;
+  const sorted = [...rm.items].sort((a,b) => (b.likelihood*b.impact) - (a.likelihood*a.impact));
+  const detailRows = sorted.map(i => {
+    const band = ratingBand(i.likelihood*i.impact);
+    return `<tr><td>${esc(i.id)}</td><td>${esc(i.label)}</td><td><span class="status-pill" data-band="${esc(band)}">${esc(band)}</span></td><td>${i.likelihood*i.impact}</td><td>${esc(i.owner)}</td><td>${esc(i.status)}</td></tr>`;
+  }).join('');
+
+  return `<div class="heatmap-wrap">
+    <div>
+      <table class="heatmap"><thead><tr>${colHeaders}</tr></thead><tbody>${rowsHtml}</tbody></table>
+      <div style="display:flex;justify-content:space-between;max-width:530px;margin-top:4px;">
+        <span class="hm-axis-label">↑ Impact</span><span class="hm-axis-label">Likelihood →</span>
+      </div>
+    </div>
+    <div class="legend" style="align-content:flex-start;max-width:220px;">${legend}</div>
+  </div>
+  ${rm.note ? `<p class="kpi-note">${esc(rm.note)}</p>` : ''}
+  <div class="table-scroll">
+    <table class="data-table" id="${tableId}">
+      <thead><tr><th>ID</th><th>Risk</th><th>Rating</th><th>Score</th><th>Owner</th><th>Status</th></tr></thead>
+      <tbody>${detailRows}</tbody>
+    </table>
+  </div>
+  <script>attachSort('${tableId}');<\/script>`;
+}
+/* ---------- Bar chart (single series, horizontal) ---------- */
+let chartCounter = 0;
+function barChartHtml(bc) {
+  const uid = chartCounter++;
+  const max = Math.max(...bc.items.map(i => i.value), 0.0001);
+  const unitFmt = (v) => bc.unit === '%' ? v.toFixed(2) + '%' : bc.unit === 'currency' ? fmtCurrency(v) : fmtNum(v);
+  const rows = bc.items.map(item => {
+    const pct = (item.value / max) * 100;
+    return `<div class="bar-row">
+      <div class="bar-label">${esc(item.label)}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${pct}%" data-tip="${esc(item.label + ': ' + unitFmt(item.value))}"></div></div>
+      <div class="bar-value">${esc(unitFmt(item.value))}</div>
+    </div>`;
+  }).join('');
+  const tableId = 'bartbl-' + uid;
+  const tableRowsHtml = bc.items.map(i => `<tr><td>${esc(i.label)}</td><td>${esc(unitFmt(i.value))}</td></tr>`).join('');
+  return `<div id="chartwrap-${uid}">
+    <div class="chart-toolbar"><button class="btn" onclick="toggleTableView(${uid})">📋 Table view</button></div>
+    <div id="chart-${uid}">${rows}</div>
+    <div id="table-${uid}" style="display:none" class="table-scroll">
+      <table class="data-table" id="${tableId}"><thead><tr><th>Category</th><th>Value</th></tr></thead><tbody>${tableRowsHtml}</tbody></table>
+    </div>
+  </div>
+  <script>attachSort('${tableId}');<\/script>`;
+}
+function toggleTableView(uid) {
+  const chart = document.getElementById('chart-'+uid), table = document.getElementById('table-'+uid);
+  const showingChart = chart.style.display !== 'none';
+  chart.style.display = showingChart ? 'none' : '';
+  table.style.display = showingChart ? '' : 'none';
+}
+
+/* ---------- Trend chart (multi-series bar/line over categories) ---------- */
+function trendChartHtml(chart) {
+  const uid = chartCounter++;
+  const categories = chart.series[0].points.map(p => p.x);
+  const allVals = chart.series.flatMap(s => s.points.map(p => p.y));
+  const maxV = Math.max(...allVals, 0.0001);
+  const unitFmt = (v) => chart.unit === 'currency' ? fmtCurrency(v) : chart.unit === '%' ? v.toFixed(1)+'%' : fmtNum(v);
+
+  const W = 720, H = 260, padL = 70, padB = 34, padT = 14, padR = 20;
+  const plotW = W - padL - padR, plotH = H - padT - padB;
+  const stepX = categories.length > 1 ? plotW / (categories.length - 1) : 0;
+  const xFor = (i) => categories.length > 1 ? padL + i * stepX : padL + plotW/2;
+  const yFor = (v) => padT + plotH - (v / maxV) * plotH;
+
+  let svgInner = '';
+  // gridlines
+  for (let g=0; g<=4; g++) {
+    const gy = padT + (plotH/4)*g;
+    const val = maxV - (maxV/4)*g;
+    svgInner += `<line x1="${padL}" y1="${gy}" x2="${W-padR}" y2="${gy}" stroke="var(--gridline)" stroke-width="1"/>`;
+    svgInner += `<text x="${padL-8}" y="${gy+4}" text-anchor="end" font-size="10" fill="var(--text-muted)">${unitFmt(val)}</text>`;
+  }
+  categories.forEach((c,i) => {
+    const anchor = i === 0 ? 'start' : (i === categories.length - 1 ? 'end' : 'middle');
+    svgInner += `<text x="${xFor(i)}" y="${H-10}" text-anchor="${anchor}" font-size="10" fill="var(--text-muted)">${esc(c)}</text>`;
+  });
+
+  const legendItems = [];
+  if (chart.type === 'line') {
+    chart.series.forEach((s, si) => {
+      const colorVar = SERIES_COLORS[si % SERIES_COLORS.length];
+      const pts = s.points.map((p,i) => `${xFor(i)},${yFor(p.y)}`).join(' ');
+      svgInner += `<polyline points="${pts}" fill="none" stroke="var(${colorVar})" stroke-width="2.5"/>`;
+      s.points.forEach((p,i) => {
+        svgInner += `<circle cx="${xFor(i)}" cy="${yFor(p.y)}" r="4.5" fill="var(${colorVar})" data-tip="${esc(s.label + ' · ' + p.x + ': ' + unitFmt(p.y))}"/>`;
+      });
+      if (chart.series.length > 1) legendItems.push(`<div class="legend-item"><span class="legend-swatch" style="background:var(${colorVar})"></span>${esc(s.label)}</div>`);
+    });
+  } else {
+    const n = chart.series.length;
+    const groupW = stepX > 0 ? stepX * 0.7 : plotW * 0.5;
+    const barW = groupW / n * 0.8;
+    chart.series.forEach((s, si) => {
+      const colorVar = SERIES_COLORS[si % SERIES_COLORS.length];
+      s.points.forEach((p,i) => {
+        const gx = xFor(i) - groupW/2 + si*(groupW/n) + (groupW/n - barW)/2;
+        const y = yFor(p.y);
+        svgInner += `<rect x="${gx}" y="${y}" width="${barW}" height="${padT+plotH-y}" rx="2" fill="var(${colorVar})" data-tip="${esc(s.label + ' · ' + p.x + ': ' + unitFmt(p.y))}"/>`;
+      });
+      if (chart.series.length > 1) legendItems.push(`<div class="legend-item"><span class="legend-swatch" style="background:var(${colorVar})"></span>${esc(s.label)}</div>`);
+    });
+  }
+  svgInner += `<line x1="${padL}" y1="${padT+plotH}" x2="${W-padR}" y2="${padT+plotH}" stroke="var(--baseline)" stroke-width="1.5"/>`;
+
+  const tableId = 'trendtbl-' + uid;
+  const tRows = categories.map((c,i) => `<tr><td>${esc(c)}</td>${chart.series.map(s => `<td>${esc(unitFmt(s.points[i].y))}</td>`).join('')}</tr>`).join('');
+  const tHeaders = `<th>Period</th>${chart.series.map(s => `<th>${esc(s.label)}</th>`).join('')}`;
+
+  return `<div class="card">
+    <h3 class="section-title" style="font-size:15px">${esc(chart.title)}</h3>
+    <div class="chart-toolbar"><button class="btn" onclick="toggleTableView(${uid})">📋 Table view</button></div>
+    ${legendItems.length ? `<div class="legend">${legendItems.join('')}</div>` : ''}
+    <div id="chart-${uid}"><svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;max-width:720px">${svgInner}</svg></div>
+    <div id="table-${uid}" style="display:none" class="table-scroll">
+      <table class="data-table" id="${tableId}"><thead><tr>${tHeaders}</tr></thead><tbody>${tRows}</tbody></table>
+    </div>
+  </div>
+  <script>attachSort('${tableId}');<\/script>`;
+}
+
+/* ---------- Section renderer (shared by reports + other_items) ---------- */
+function sectionHtml(section) {
+  let html = `<div class="card"><h3 class="section-title">${esc(section.heading)}</h3>`;
+  if (section.body) html += `<p>${esc(section.body).trim()}</p>`;
+  if (section.table) html += tableHtml(section.table);
+  if (section.risk_matrix) html += riskMatrixHtml(section.risk_matrix, chartCounter++);
+  if (section.bar_chart) html += barChartHtml(section.bar_chart);
+  html += `</div>`;
+  return html;
+}
+
+function sourceHtml(sourceFile) {
+  if (sourceFile && PACK_FILES[sourceFile]) {
+    return `<a class="source-link btn" href="${PACK_FILES[sourceFile]}" download>📄 Download source document</a>`;
+  }
+  return `<p class="source-missing">Source PDF not attached in this build.</p>`;
+}
+
+/* ---------- Report tab ---------- */
+function reportPanelHtml(report) {
+  let html = `<div class="card">
+    <h2 class="section-title" style="font-size:19px">${esc(report.label)}
+      ${report.tabled === false ? '<span class="not-tabled-badge">Not tabled this cycle</span>' : ''}
+    </h2>
+    ${report.strapline ? `<p class="strapline">${esc(report.strapline)}</p>` : ''}
+  </div>`;
+
+  if (report.tabled === false) {
+    html += `<div class="card empty-state">
+      <div class="big">Nothing tabled for this report this cycle.</div>
+      <div>It will reappear here with data once it is next submitted to the Committee.</div>
+    </div>`;
+    return html;
+  }
+
+  html += kpiGridHtml(report.kpis);
+  (report.sections || []).forEach(s => html += sectionHtml(s));
+  html += `<div class="card">${sourceHtml(report.source_file)}</div>`;
+  return html;
+}
+
+/* ---------- Overview tab ---------- */
+function overviewPanelHtml() {
+  const ki = (PACK_DATA.key_information || []).map(k => `
+    <div class="card key-info-card">
+      <span class="tag-badge" data-tag="${esc(k.tag)}">${esc(k.tag)}</span>
+      <h3>${esc(k.title)}</h3>
+      <p>${esc(k.body).trim()}</p>
+    </div>`).join('');
+
+  const navCards = PACK_DATA.reports.map(r => {
+    const topKpis = (r.kpis || []).slice(0, 3);
+    return `<button class="report-nav-card" onclick="activateTab('${r.id}')">
+      <h4>${esc(r.label)} ${r.tabled === false ? '<span class="not-tabled-badge">Not tabled</span>' : ''}</h4>
+      <p>${esc(r.strapline || '')}</p>
+      <div class="mini-kpis">${topKpis.map(k => `<div class="mini-kpi"><b>${esc(k.value)}</b> ${esc(k.label)}</div>`).join('')}</div>
+    </button>`;
+  }).join('');
+
+  return `
+    <div class="card"><h2 class="section-title">Key information for the Committee</h2></div>
+    ${ki || '<div class="card empty-state">No standout items flagged for this cycle.</div>'}
+    <div class="card" style="margin-top:22px"><h2 class="section-title">Reports in this pack</h2></div>
+    <div class="report-nav-grid">${navCards}</div>
+  `;
+}
+
+/* ---------- Other items tab ---------- */
+function otherItemsPanelHtml() {
+  const items = PACK_DATA.other_items || [];
+  const cats = [...new Set(items.map(i => i.category))];
+  const cards = items.map((item, idx) => {
+    const inner = [
+      item.description ? `<p class="other-item-desc">${esc(item.description).trim()}</p>` : '',
+      kpiGridHtml(item.kpis),
+      (item.sections || []).map(sectionHtmlInner).join(''),
+      sourceHtml(item.source_file)
+    ].join('');
+    return `<details class="card other-item-card" data-category="${esc(item.category)}">
+      <summary><span>${esc(item.title)}</span><span class="cat-badge">${esc(item.category)}</span></summary>
+      <div class="other-item-meta">${[item.version ? 'Version ' + esc(item.version) : '', item.date].filter(Boolean).join(' · ')}</div>
+      ${inner}
+    </details>`;
+  }).join('');
+
+  const chips = ['All', ...cats].map(c => `<button class="filter-chip${c==='All'?' active':''}" data-cat="${esc(c)}" onclick="filterOtherItems('${esc(c)}', this)">${esc(c)}</button>`).join('');
+
+  return `
+    <div class="card"><h2 class="section-title">Other items tabled this cycle</h2>
+      <p class="strapline">Policies, procedures, assessments and other papers submitted alongside the core reports. This bucket is expected to change composition every cycle.</p>
+    </div>
+    <div class="other-items-toolbar">${chips}</div>
+    <div id="otherItemsList">${cards || '<div class="card empty-state">No additional items tabled this cycle.</div>'}</div>
+  `;
+}
+function sectionHtmlInner(section) {
+  let html = `<h4 style="margin:14px 0 8px;font-size:13.5px">${esc(section.heading)}</h4>`;
+  if (section.body) html += `<p style="font-size:13.5px;color:var(--text-secondary)">${esc(section.body).trim()}</p>`;
+  if (section.table) html += tableHtml(section.table);
+  if (section.bar_chart) html += barChartHtml(section.bar_chart);
+  return html;
+}
+function filterOtherItems(cat, btn) {
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#otherItemsList .other-item-card').forEach(card => {
+    card.style.display = (cat === 'All' || card.dataset.category === cat) ? '' : 'none';
+  });
+}
+
+/* ---------- Trends tab ---------- */
+function trendsPanelHtml() {
+  const t = PACK_DATA.trends || {};
+  const charts = t.charts || [];
+  let html = `<div class="card"><h2 class="section-title">Trends</h2>
+    ${t.note ? `<p class="strapline">${esc(t.note)}</p>` : ''}</div>`;
+  if (!charts.length) {
+    html += `<div class="trend-empty">No trend data yet. Once a second cycle is added to the data file, charts will appear here automatically.</div>`;
+    return html;
+  }
+  charts.forEach(c => {
+    if (!c.series.length || c.series[0].points.length < 2) {
+      html += `<div class="card"><h3 class="section-title" style="font-size:15px">${esc(c.title)}</h3>
+        <div class="trend-empty">Only one data point so far — a trend line will appear once the next cycle is added.</div></div>`;
+    } else {
+      html += trendChartHtml(c);
+    }
+  });
+  return html;
+}
+
+/* ---------- Tabs / search ---------- */
+function activateTab(id) {
+  document.querySelectorAll('nav.tabs button').forEach(b => b.classList.toggle('active', b.dataset.tab === id));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + id));
+  window.scrollTo({top: 0, behavior: 'instant'});
+}
+
+function buildApp() {
+  renderHeader();
+  const tabDefs = [{id: 'overview', label: 'Overview'}];
+  PACK_DATA.reports.forEach(r => tabDefs.push({id: r.id, label: r.label.replace(' Report','').replace(' Management','')}));
+  tabDefs.push({id: 'other-items', label: 'Other Items This Cycle'});
+  tabDefs.push({id: 'trends', label: 'Trends'});
+
+  const nav = document.getElementById('tabNav');
+  nav.innerHTML = tabDefs.map(t => `<button data-tab="${t.id}" onclick="activateTab('${t.id}')">${esc(t.label)}</button>`).join('');
+
+  const panels = document.getElementById('tabPanels');
+  let panelsHtml = `<div class="tab-panel" id="panel-overview">${overviewPanelHtml()}</div>`;
+  PACK_DATA.reports.forEach(r => {
+    panelsHtml += `<div class="tab-panel" id="panel-${r.id}">${reportPanelHtml(r)}</div>`;
+  });
+  panelsHtml += `<div class="tab-panel" id="panel-other-items">${otherItemsPanelHtml()}</div>`;
+  panelsHtml += `<div class="tab-panel" id="panel-trends">${trendsPanelHtml()}</div>`;
+  panels.innerHTML = panelsHtml;
+
+  activateTab('overview');
+
+  document.getElementById('searchBox').addEventListener('input', (e) => {
+    const q = e.target.value.trim().toLowerCase();
+    document.querySelectorAll('.report-nav-card').forEach(card => {
+      card.style.display = !q || card.textContent.toLowerCase().includes(q) ? '' : 'none';
+    });
+    document.querySelectorAll('.other-item-card').forEach(card => {
+      card.style.display = !q || card.textContent.toLowerCase().includes(q) ? '' : 'none';
+      if (q && card.textContent.toLowerCase().includes(q)) card.open = true;
+    });
+  });
+}
+
+buildApp();
+</script>
+</body>
+</html>

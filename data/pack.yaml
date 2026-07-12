@@ -1,0 +1,238 @@
+# ==============================================================================
+# Committee Pack data file — SAMPLE / TEMPLATE
+#
+# This is the single source of truth for every number and word on the generated
+# dashboard. Edit this file each cycle, drop matching source PDFs into source/
+# (see `source_file` keys), then run:
+#
+#     python build/generate_pack.py data/pack.yaml dist/committee-pack.sample.html
+#
+# The dashboard never parses numbers out of PDFs itself — it only reads this
+# file. That keeps every figure a committee member sees traceable to a human
+# who typed it in, which matters for a risk/compliance pack.
+#
+# STRUCTURE NOTES (read this before editing):
+# - `reports` is a FIXED list of the five standing committee reports. Tabs for
+#   these always appear in the dashboard nav, even in a cycle where a report
+#   wasn't tabled (set `tabled: false` and it renders as "not tabled this
+#   cycle" instead of disappearing). Do not add or remove entries from this
+#   list cycle to cycle — the five are permanent.
+# - Within a report, `sections` is a FREE-FORM ordered list. Add, remove,
+#   rename or reorder sections as needed each cycle — there is no fixed
+#   template for sub-headings, because what needs flagging changes quarter to
+#   quarter. Each section can carry a `body` (prose), a `table`, a
+#   `risk_matrix` (5x5 heatmap), and/or a `bar_chart`.
+# - `other_items` is the ROTATING bucket for whatever else is tabled this
+#   cycle: policies, procedures, assessments, one-off items like an internal
+#   audit survey. Add/remove freely; nothing here is expected to recur.
+# - `trends` only needs a new entry appended each cycle — the chart draws
+#   itself once there are two or more data points.
+#
+# This copy is a SAMPLE cycle with illustrative data for a fictional entity,
+# so the tool can be reviewed end-to-end without exposing real figures.
+# ==============================================================================
+
+meeting:
+  committee: "Enterprise Risk Committee"
+  feeds_into: "Audit and Risk Committee"
+  entity: "Sample Holdings Ltd"
+  cycle_label: "Q2 2026"
+  meeting_date: "2026-07-24"
+  location: "Boardroom, Head Office"
+  chairperson: "Independent Non-Executive Chair"
+  prepared_by: "Group Risk & Compliance Office"
+  confidentiality: "Strictly private & confidential — committee use only. Not for onward circulation."
+
+key_information:
+  - tag: "For Noting"
+    title: "This is a template cycle"
+    body: >
+      This pack uses illustrative sample data so the tool can be reviewed end
+      to end. Replace data/pack.yaml with real content before the first live
+      sitting.
+  - tag: "For Decision"
+    title: "Risk appetite statement re-affirmation"
+    body: >
+      The Committee is asked to re-affirm the Group risk appetite statement
+      tabled in the Risk Management Report before escalation to the Audit and
+      Risk Committee.
+  - tag: "For Noting"
+    title: "One extreme-rated risk on the register"
+    body: >
+      Cloud vendor concentration (RM-014) is rated Extreme. Treatment plan and
+      owner are set out in the Risk Management Report tab.
+
+reports:
+  - id: risk_management
+    label: "Risk Management Report"
+    tabled: true
+    source_file: "source/risk_management_report.pdf"
+    strapline: "Enterprise risk register, risk appetite tracking and treatment progress."
+    kpis:
+      - {label: "Total open risks", value: "19", status: "neutral"}
+      - {label: "Extreme-rated", value: "1", status: "critical"}
+      - {label: "High-rated", value: "4", status: "serious"}
+      - {label: "Overdue treatment actions", value: "3", status: "warning"}
+      - {label: "Risk appetite breaches", value: "1", status: "critical"}
+    sections:
+      - heading: "Commentary"
+        body: >
+          Nineteen risks are tracked on the enterprise risk register across
+          six categories. One risk — cloud vendor concentration (RM-014) — is
+          rated Extreme and sits outside the Board-approved risk appetite for
+          Technology & Cyber. A revised treatment plan is tabled for
+          Committee endorsement.
+      - heading: "Risk register"
+        risk_matrix:
+          items:
+            - {id: "RM-001", label: "Key supplier insolvency", likelihood: 2, impact: 4, owner: "Head of Procurement", status: "Treating"}
+            - {id: "RM-002", label: "Payroll system outage", likelihood: 2, impact: 3, owner: "Head of IT", status: "Treating"}
+            - {id: "RM-003", label: "Data breach — customer PII", likelihood: 2, impact: 5, owner: "CISO", status: "Treating"}
+            - {id: "RM-004", label: "Regulatory change — data protection", likelihood: 3, impact: 3, owner: "Head of Compliance", status: "Monitoring"}
+            - {id: "RM-005", label: "Key person dependency — Finance", likelihood: 3, impact: 3, owner: "CFO", status: "Treating"}
+            - {id: "RM-006", label: "Foreign exchange volatility", likelihood: 3, impact: 3, owner: "Group Treasurer", status: "Monitoring"}
+            - {id: "RM-007", label: "Office premises fire/flood", likelihood: 1, impact: 3, owner: "Facilities Manager", status: "Accepted"}
+            - {id: "RM-014", label: "Cloud vendor concentration", likelihood: 4, impact: 5, owner: "CISO", status: "Treating — overdue"}
+            - {id: "RM-015", label: "Interest rate exposure", likelihood: 3, impact: 2, owner: "Group Treasurer", status: "Monitoring"}
+            - {id: "RM-017", label: "Business continuity plan gaps", likelihood: 2, impact: 3, owner: "Head of Operations", status: "Treating — overdue"}
+
+  - id: compliance
+    label: "Compliance Management Report"
+    tabled: true
+    source_file: "source/compliance_management_report.pdf"
+    strapline: "Status against the compliance obligations register by regulatory area."
+    kpis:
+      - {label: "Obligations tracked", value: "23", status: "neutral"}
+      - {label: "Compliant", value: "20", status: "good"}
+      - {label: "In progress", value: "2", status: "warning"}
+      - {label: "Non-compliant", value: "1", status: "critical"}
+    sections:
+      - heading: "Commentary"
+        body: >
+          One obligation — the annual data protection impact assessment
+          refresh — is non-compliant, with a remediation plan tabled below.
+          All other obligations are compliant or on track.
+      - heading: "Obligations register"
+        table:
+          columns: ["Area", "Obligation", "Status", "Owner", "Due", "Notes"]
+          rows:
+            - ["Data Protection", "Annual DPIA refresh", "Non-compliant", "DPO", "2026-06-30", "Overdue — revised target 2026-08-31"]
+            - ["Data Protection", "Records of processing register", "Compliant", "DPO", "2026-12-31", "Current"]
+            - ["Financial Crime", "AML/CTF policy attestations", "Compliant", "MLRO", "2026-09-30", "Current"]
+            - ["Financial Crime", "Sanctions screening review", "In progress", "MLRO", "2026-08-01", "On track"]
+            - ["Health & Safety", "Annual H&S audit", "Compliant", "Facilities Manager", "2026-05-31", "Closed out"]
+
+  - id: bcm
+    label: "Business Continuity Management Report"
+    tabled: true
+    source_file: "source/business_continuity_management_report.pdf"
+    strapline: "Business continuity and disaster recovery plan currency and test results."
+    kpis:
+      - {label: "BC plans in scope", value: "6", status: "neutral"}
+      - {label: "Tested in last 12 months", value: "5", status: "warning"}
+      - {label: "Tests passed", value: "5 / 5", status: "good"}
+      - {label: "Overdue tests", value: "1", status: "warning"}
+    sections:
+      - heading: "Commentary"
+        body: >
+          The Head Office plan test is overdue by one cycle following office
+          relocation; a revised test date has been booked. All other plans
+          were tested in the last twelve months and passed.
+      - heading: "Test schedule"
+        table:
+          columns: ["Plan", "Last tested", "Result", "Next test", "Owner"]
+          rows:
+            - ["Head Office — Building Loss", "2025-01-10", "Overdue", "2026-08-15", "Facilities Manager"]
+            - ["Data Centre Failover", "2026-03-04", "Passed", "2027-03-01", "Head of IT"]
+            - ["Payroll & Finance Continuity", "2026-02-18", "Passed", "2027-02-01", "CFO"]
+            - ["Customer Contact Centre", "2026-04-22", "Passed — minor findings", "2027-04-01", "Head of Operations"]
+
+  - id: whistleblowing
+    label: "Whistleblowing Report"
+    tabled: true
+    source_file: "source/whistleblowing_report.pdf"
+    strapline: "Anonymised summary of speak-up channel activity."
+    kpis:
+      - {label: "Cases received (cycle)", value: "6", status: "neutral"}
+      - {label: "Closed", value: "4", status: "good"}
+      - {label: "Open", value: "2", status: "warning"}
+      - {label: "Beyond 30-day target", value: "1", status: "critical"}
+    sections:
+      - heading: "Commentary"
+        body: >
+          Six matters were raised through the speak-up channel this cycle.
+          Four are closed; two remain open, of which one has exceeded the
+          30-day resolution target.
+      - heading: "Reports by category"
+        bar_chart:
+          unit: "count"
+          items:
+            - {label: "HR / Conduct", value: 2}
+            - {label: "Financial irregularity", value: 1}
+            - {label: "Conflict of interest", value: 1}
+            - {label: "H&S", value: 1}
+            - {label: "Data protection", value: 1}
+
+  - id: project_risk
+    label: "Project Risk Report"
+    tabled: true
+    source_file: "source/project_risk_report.pdf"
+    strapline: "Risk exposure across major change and transformation projects."
+    kpis:
+      - {label: "Projects in flight", value: "6", status: "neutral"}
+      - {label: "Extreme / High risk projects", value: "1", status: "serious"}
+      - {label: "On budget", value: "5 / 6", status: "warning"}
+      - {label: "On schedule", value: "4 / 6", status: "warning"}
+    sections:
+      - heading: "Commentary"
+        body: >
+          The ERP replatform is tracking High risk due to a compressed
+          go-live window and reliance on a single systems integrator. All
+          other projects are tracking within tolerance.
+      - heading: "Project status"
+        table:
+          columns: ["Project", "Phase", "Risk rating", "Top risk", "Budget", "Schedule"]
+          rows:
+            - ["ERP replatform", "Build", "High", "Compressed go-live window / SI dependency", "On budget", "At risk"]
+            - ["Office relocation", "Closeout", "Low", "Snagging list outstanding", "On budget", "On schedule"]
+            - ["Customer portal rebuild", "Design", "Medium", "Scope creep from stakeholder requests", "On budget", "At risk"]
+            - ["Data warehouse migration", "Build", "Medium", "Legacy data quality issues", "Over budget", "On schedule"]
+
+other_items:
+  - id: risk_policy
+    title: "Group Risk Management Policy"
+    category: "Policy"
+    version: "v4.2"
+    source_file: "source/other/group_risk_management_policy.pdf"
+    description: "Annual policy review — no substantive changes since last approval."
+  - id: bcm_policy
+    title: "Business Continuity Policy"
+    category: "Policy"
+    version: "v2.1"
+    source_file: "source/other/business_continuity_policy.pdf"
+    description: "Updated to reflect new office location and revised RTO/RPO targets."
+  - id: speakup_procedure
+    title: "Speak-Up (Whistleblowing) Procedure"
+    category: "Procedure"
+    version: "v3.0"
+    source_file: "source/other/speak_up_procedure.pdf"
+    description: "Minor update — added external reporting hotline details."
+  - id: vendor_assessment
+    title: "Third-Party & Vendor Risk Assessment — Cloud Hosting Provider"
+    category: "Assessment"
+    version: "Final"
+    source_file: "source/other/vendor_risk_assessment_cloud_hosting.pdf"
+    description: "Supports the RM-014 treatment plan discussion."
+
+trends:
+  note: "This is only the second data point on record — lines will fill out as more cycles are added."
+  charts:
+    - id: open_risks
+      title: "Open risks on the register"
+      type: "line"
+      unit: "count"
+      series:
+        - label: "Total open risks"
+          points: [{x: "Q1 2026", y: 17}, {x: "Q2 2026", y: 19}]
+        - label: "Extreme-rated"
+          points: [{x: "Q1 2026", y: 0}, {x: "Q2 2026", y: 1}]

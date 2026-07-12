@@ -1,0 +1,5 @@
+# Real committee data stays local until explicitly reviewed and approved for commit
+data/private/
+dist/private/
+__pycache__/
+*.pyc
