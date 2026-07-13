@@ -221,13 +221,57 @@ reports:
           go-live window and reliance on a single systems integrator. All
           other projects are tracking within tolerance.
       - heading: "Project status"
-        table:
-          columns: ["Project", "Phase", "Risk rating", "Top risk", "Budget", "Schedule"]
-          rows:
-            - ["ERP replatform", "Build", "High", "Compressed go-live window / SI dependency", "On budget", "At risk"]
-            - ["Office relocation", "Closeout", "Low", "Snagging list outstanding", "On budget", "On schedule"]
-            - ["Customer portal rebuild", "Design", "Medium", "Scope creep from stakeholder requests", "On budget", "At risk"]
-            - ["Data warehouse migration", "Build", "Medium", "Legacy data quality issues", "Over budget", "On schedule"]
+        # `projects` renders one collapsible card per project instead of a flat table row,
+        # so a reader can see the blockers and next steps without them being squeezed into
+        # a single table cell. Every field is optional — include whatever the preparer
+        # actually has for that project.
+        projects:
+          - project: "ERP replatform"
+            phase: "Build"
+            risk_rating: "High"
+            budget: "N$4.2m"
+            spend: "N$2.6m"
+            schedule: "At risk"
+            blockers:
+              - "Compressed go-live window leaves little slack for slippage."
+              - "Delivery depends on a single systems integrator with no fallback resourcing."
+            update: >
+              Build phase is 70% complete. The integrator flagged a two-week slip on the
+              finance-module cutover; a recovery plan was tabled to the project steering
+              committee on 3 July 2026.
+            next_focus: >
+              Confirm the recovery plan holds the go-live date; escalate integrator
+              resourcing to the vendor's account manager if the finance-module slip grows.
+          - project: "Office relocation"
+            phase: "Closeout"
+            risk_rating: "Low"
+            budget: "N$650,000"
+            spend: "N$610,000"
+            schedule: "On schedule"
+            blockers:
+              - "Snagging list from the fit-out contractor remains open."
+            update: "Final snagging items are being cleared; practical completion expected end of July."
+            next_focus: "Sign off the snagging list and close the project on the tracker."
+          - project: "Customer portal rebuild"
+            phase: "Design"
+            risk_rating: "Medium"
+            budget: "N$1.8m"
+            spend: "N$0.3m"
+            schedule: "At risk"
+            blockers:
+              - "Scope creep from stakeholder requests raised during design workshops."
+            update: "Design workshops surfaced 14 additional feature requests beyond the original brief."
+            next_focus: "Steering committee to triage the new requests against the approved scope by end of Q3."
+          - project: "Data warehouse migration"
+            phase: "Build"
+            risk_rating: "Medium"
+            budget: "N$2.1m"
+            spend: "N$2.4m"
+            schedule: "On schedule"
+            blockers:
+              - "Legacy data quality issues are surfacing faster than the cleansing workstream can absorb them."
+            update: "Migration is on schedule, but the cleansing effort has pushed spend 14% over the phase budget."
+            next_focus: "Confirm whether the cleansing overrun needs a budget variance request or can be absorbed."
 
 other_items:
   - id: risk_policy

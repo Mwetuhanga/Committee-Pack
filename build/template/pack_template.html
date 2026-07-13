@@ -146,15 +146,23 @@
   .section-title { font-size: 17px; font-weight: 700; margin: 0 0 10px; }
   .strapline { color: var(--text-secondary); font-size: 14px; margin: 2px 0 0; }
 
-  details.section-details summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
-  details.section-details summary::-webkit-details-marker { display: none; }
+  details.section-details summary, details.project-card summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+  details.section-details summary::-webkit-details-marker, details.project-card summary::-webkit-details-marker { display: none; }
   details.section-details summary span:first-child {
     font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.1px;
     color: var(--chip-text); background: var(--chip); padding: 8px 16px; border-radius: 99px;
   }
-  details.section-details .chevron { color: var(--text-muted); font-size: 13px; transition: transform 0.15s; }
-  details.section-details[open] .chevron { transform: rotate(180deg); }
-  details.section-details .section-body { margin-top: 14px; }
+  details.project-card summary span:first-child { font-size: 14.5px; font-weight: 700; }
+  details.section-details .chevron, details.project-card .chevron { color: var(--text-muted); font-size: 13px; transition: transform 0.15s; }
+  details.section-details[open] .chevron, details.project-card[open] .chevron { transform: rotate(180deg); }
+  details.section-details .section-body, details.project-card .section-body { margin-top: 14px; }
+  .project-status-list { display: flex; flex-direction: column; gap: 10px; }
+  .project-meta { font-size: 12.5px; color: var(--text-muted); margin: 0 0 10px; }
+  .project-block { margin-top: 10px; }
+  .project-block b { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--text-muted); margin-bottom: 4px; }
+  .project-block p, .project-block ul { margin: 0; font-size: 13.5px; color: var(--text-secondary); }
+  .project-block ul { padding-left: 18px; }
+  .project-block.project-next { padding: 8px 12px; background: var(--page); border-radius: 8px; }
   .expand-toolbar { display: flex; gap: 8px; margin-bottom: 12px; }
 
   .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 18px; }
@@ -593,11 +601,43 @@ function trendChartHtml(chart) {
   <script>attachSort('${tableId}');<\/script>`;
 }
 
+/* ---------- Project status (detailed, per-project cards) ---------- */
+// A flat table forces every project into the same handful of short columns, which loses
+// the thing a reader actually needs from a project update: what's blocking it and what
+// happens next. `projects` is a richer, all-optional shape — a project can supply
+// whichever fields the preparer actually has (budget/spend, blockers, current update,
+// next focus) and the card only renders what's present.
+function projectStatusHtml(projects, uid) {
+  const RATING_BAND = {low: 'Low', medium: 'Medium', high: 'High', 'very high': 'Very High', critical: 'Critical'};
+  const cards = projects.map((p, i) => {
+    const ratingKey = (p.risk_rating || '').trim().toLowerCase();
+    const ratingBadge = RATING_BAND[ratingKey]
+      ? `<span class="status-pill" data-band="${esc(RATING_BAND[ratingKey])}">${esc(RATING_BAND[ratingKey])}</span>`
+      : (p.risk_rating ? `<span class="status-pill">${esc(p.risk_rating)}</span>` : '');
+    const meta = [p.phase, p.budget ? `Budget: ${p.budget}` : '', p.spend ? `Spend: ${p.spend}` : '', p.schedule]
+      .filter(Boolean).map(esc).join(' · ');
+    const blockers = (p.blockers || []).length
+      ? `<div class="project-block"><b>Current risk / blocker</b><ul>${p.blockers.map(b => `<li>${esc(b)}</li>`).join('')}</ul></div>` : '';
+    const update = p.update ? `<div class="project-block"><b>Current update</b><p>${esc(p.update).trim()}</p></div>` : '';
+    const nextFocus = p.next_focus ? `<div class="project-block project-next"><b>Next focus</b><p>${esc(p.next_focus).trim()}</p></div>` : '';
+    return `<details class="card project-card" id="proj-${uid}-${i}">
+      <summary><span>${esc(p.project)}</span><span class="chevron">▾</span></summary>
+      <div class="section-body">
+        ${ratingBadge ? `<div style="margin-bottom:8px">${ratingBadge}</div>` : ''}
+        ${meta ? `<p class="project-meta">${meta}</p>` : ''}
+        ${blockers}${update}${nextFocus}
+      </div>
+    </details>`;
+  }).join('');
+  return `<div class="project-status-list">${cards}</div>`;
+}
+
 /* ---------- Section renderer (shared by reports + other_items) ---------- */
 function sectionHtml(section, id) {
   let inner = '';
   if (section.body) inner += `<p>${esc(section.body).trim()}</p>`;
   if (section.table) inner += tableHtml(section.table);
+  if (section.projects) inner += projectStatusHtml(section.projects, id || ('sec-' + chartCounter));
   if (section.risk_matrix) inner += riskMatrixHtml(section.risk_matrix, chartCounter++);
   if (section.bar_chart) inner += barChartHtml(section.bar_chart);
   return `<details class="card section-details" id="${esc(id || '')}" open>
@@ -697,7 +737,7 @@ function reportPanelHtml(report) {
   return html;
 }
 function setAllDetails(panelId, open) {
-  document.querySelectorAll(`#${panelId} details.section-details`).forEach(d => d.open = open);
+  document.querySelectorAll(`#${panelId} details.section-details, #${panelId} details.project-card`).forEach(d => d.open = open);
 }
 
 /* ---------- Overview tab ---------- */
