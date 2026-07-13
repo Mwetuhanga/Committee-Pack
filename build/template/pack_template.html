@@ -7,19 +7,21 @@
 <title>__PACK_TITLE__</title>
 <style>
   :root {
-    --surface-1: #fcfcfb;
-    --page: #f9f9f7;
+    --surface-1: #ffffff;
+    --page: #f6f7f9;
     --surface-raised: #ffffff;
-    --text-primary: #0b0b0b;
-    --text-secondary: #52514e;
-    --text-muted: #898781;
-    --gridline: #e1e0d9;
-    --baseline: #c3c2b7;
-    --border: rgba(11,11,11,0.10);
-    --border-strong: rgba(11,11,11,0.18);
+    --text-primary: #1c1d2e;
+    --text-secondary: #6f7284;
+    --text-muted: #9a9dae;
+    --gridline: #e6e8ee;
+    --baseline: #d4d7df;
+    --border: #e6e8ee;
+    --border-strong: #d4d7df;
+    --chip: #eef0f4;
+    --chip-text: #3c3f52;
 
-    --series-1: #2a78d6; --series-2: #1baf7a; --series-3: #eda100; --series-4: #008300;
-    --series-5: #4a3aa7; --series-6: #e34948; --series-7: #e87ba4; --series-8: #eb6834;
+    --series-1: #0d5a8c; --series-2: #1f9d63; --series-3: #b8841a; --series-4: #6b5ca5;
+    --series-5: #d9772e; --series-6: #dc4446; --series-7: #0f7fa0; --series-8: #96631f;
 
     --seq-100: #cde2fb; --seq-250: #86b6ef; --seq-450: #2a78d6; --seq-650: #104281;
 
@@ -47,8 +49,9 @@
     --surface-1: #1a1a19; --page: #0d0d0d; --surface-raised: #221f1e;
     --text-primary: #ffffff; --text-secondary: #c3c2b7; --text-muted: #9b9a94;
     --gridline: #2c2c2a; --baseline: #383835; --border: rgba(255,255,255,0.12); --border-strong: rgba(255,255,255,0.22);
-    --series-1: #3987e5; --series-2: #199e70; --series-3: #c98500; --series-4: #2fae2f;
-    --series-5: #9085e9; --series-6: #e66767; --series-7: #d55181; --series-8: #d95926;
+    --chip: rgba(255,255,255,0.08); --chip-text: #c3c2b7;
+    --series-1: #4a90c2; --series-2: #2f9e6e; --series-3: #b8842a; --series-4: #8b7cc0;
+    --series-5: #c17540; --series-6: #cf6a6a; --series-7: #1c94b8; --series-8: #a3782f;
     --status-good: #37c93a; --status-good-bg: #12281a;
     --status-warning: #f0ad2e; --status-warning-bg: #322609;
     --status-serious: #ee8a63; --status-serious-bg: #33200f;
@@ -63,8 +66,9 @@
       --surface-1: #1a1a19; --page: #0d0d0d; --surface-raised: #221f1e;
       --text-primary: #ffffff; --text-secondary: #c3c2b7; --text-muted: #9b9a94;
       --gridline: #2c2c2a; --baseline: #383835; --border: rgba(255,255,255,0.12); --border-strong: rgba(255,255,255,0.22);
-      --series-1: #3987e5; --series-2: #199e70; --series-3: #c98500; --series-4: #2fae2f;
-      --series-5: #9085e9; --series-6: #e66767; --series-7: #d55181; --series-8: #d95926;
+      --chip: rgba(255,255,255,0.08); --chip-text: #c3c2b7;
+      --series-1: #4a90c2; --series-2: #2f9e6e; --series-3: #b8842a; --series-4: #8b7cc0;
+      --series-5: #c17540; --series-6: #cf6a6a; --series-7: #1c94b8; --series-8: #a3782f;
       --status-good: #37c93a; --status-good-bg: #12281a;
       --status-warning: #f0ad2e; --status-warning-bg: #322609;
       --status-serious: #ee8a63; --status-serious-bg: #33200f;
@@ -150,9 +154,8 @@
     padding: 10px clamp(16px, 3vw, 26px); border-bottom: 1px solid var(--border);
   }
   body.admin-mode .admin-banner { display: flex; }
-  body.admin-mode .tag-badge.admin-clickable { cursor: pointer; box-shadow: 0 0 0 1px currentColor inset; }
-  body.admin-mode .tag-badge.admin-clickable:hover { filter: brightness(0.88); }
-  body.admin-mode .tag-badge.admin-clickable::after { content: ' ✎'; }
+  body.admin-mode .tag-badge.admin-clickable { cursor: pointer; text-decoration: underline dotted; }
+  body.admin-mode .tag-badge.admin-clickable:hover { background: var(--border-strong); }
 
   #stage { padding: 22px clamp(16px, 3vw, 26px) 90px; max-width: 1180px; width: 100%; margin: 0 auto; flex: 1; }
   .tab-panel { display: none; }
@@ -190,43 +193,30 @@
 
   details.section-details summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
   details.section-details summary::-webkit-details-marker { display: none; }
-  details.section-details summary span:first-child { font-size: 17px; font-weight: 700; }
+  details.section-details summary span:first-child {
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.1px;
+    color: var(--chip-text); background: var(--chip); padding: 8px 16px; border-radius: 99px;
+  }
   details.section-details .chevron { color: var(--text-muted); font-size: 13px; transition: transform 0.15s; }
   details.section-details[open] .chevron { transform: rotate(180deg); }
-  details.section-details .section-body { margin-top: 12px; }
-  details.section-details:hover summary span:first-child { color: var(--series-1); }
+  details.section-details .section-body { margin-top: 14px; }
   .expand-toolbar { display: flex; gap: 8px; margin-bottom: 12px; }
 
-  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 18px; }
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 18px; }
   .kpi-tile {
-    background: var(--surface-raised); border: 1px solid var(--border); border-left: 4px solid var(--status-neutral);
-    border-radius: 8px; padding: 12px 14px;
+    background: var(--surface-raised); border: 1px solid var(--border);
+    border-radius: 12px; padding: 13px 15px; box-shadow: var(--shadow);
   }
-  .kpi-tile[data-status="good"] { border-left-color: var(--status-good); }
-  .kpi-tile[data-status="warning"] { border-left-color: var(--status-warning); }
-  .kpi-tile[data-status="serious"] { border-left-color: var(--status-serious); }
-  .kpi-tile[data-status="critical"] { border-left-color: var(--status-critical); }
-  .kpi-value { font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
-  .kpi-label { font-size: 12.5px; color: var(--text-secondary); margin-top: 2px; }
+  .kpi-value { font-size: 24px; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .kpi-label { font-size: 10.5px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: .7px; font-weight: 600; margin-top: 2px; }
   .kpi-note { font-size: 11.5px; color: var(--text-muted); margin-top: 4px; }
 
   .tag-badge {
-    display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em;
-    padding: 3px 8px; border-radius: 999px; background: var(--status-neutral-bg); color: var(--status-neutral);
-  }
-  .tag-badge[data-tag="For Decision"] { background: #e7eefb; color: #1b45a8; }
-  .tag-badge[data-tag="For Approval"] { background: #f6efdc; color: #8a6d18; }
-  .tag-badge[data-tag="For Noting"] { background: #e5f2ea; color: #1f7a4d; }
-  :root[data-theme="dark"] .tag-badge[data-tag="For Decision"] { background: #16264a; color: #7fa6f2; }
-  :root[data-theme="dark"] .tag-badge[data-tag="For Approval"] { background: #2e2608; color: #e0c25a; }
-  :root[data-theme="dark"] .tag-badge[data-tag="For Noting"] { background: #0f2618; color: #63c795; }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) .tag-badge[data-tag="For Decision"] { background: #16264a; color: #7fa6f2; }
-    :root:not([data-theme="light"]) .tag-badge[data-tag="For Approval"] { background: #2e2608; color: #e0c25a; }
-    :root:not([data-theme="light"]) .tag-badge[data-tag="For Noting"] { background: #0f2618; color: #63c795; }
+    display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .3px;
+    padding: 2px 8px; border-radius: 5px; background: var(--chip); color: var(--chip-text);
   }
 
-  .key-info-card { border-left: 4px solid var(--border-strong); }
+  .key-info-card { border-left: 3px solid var(--border-strong); }
   .key-info-card h3 { margin: 8px 0 4px; font-size: 15px; }
   .key-info-card p { margin: 0; color: var(--text-secondary); font-size: 14px; }
 
@@ -249,12 +239,8 @@
   table.data-table tbody tr:hover { background: var(--page); }
   .table-scroll { overflow-x: auto; }
 
-  .status-pill { display: inline-block; font-size: 11.5px; font-weight: 600; padding: 2px 8px; border-radius: 999px; }
-  .status-pill[data-band="Low"] { background: var(--status-good-bg); color: var(--status-good); }
-  .status-pill[data-band="Medium"] { background: var(--status-warning-bg); color: var(--status-warning); }
-  .status-pill[data-band="High"] { background: var(--status-serious-bg); color: var(--status-serious); }
-  .status-pill[data-band="Very High"] { background: var(--status-critical-bg); color: var(--status-critical); }
-  .status-pill[data-band="Critical"] { background: var(--status-critical-bg); color: var(--status-critical); }
+  /* Rating words render as plain text — the heatmap is the sole colour-coded element (deliberate) */
+  .status-pill { font-size: inherit; font-weight: 500; color: inherit; }
 
   .empty-state { text-align: center; padding: 40px 20px; color: var(--text-muted); }
   .empty-state .big { font-size: 15px; color: var(--text-secondary); margin-bottom: 4px; }
@@ -299,8 +285,10 @@
 
   .source-link { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 600; margin-top: 6px; }
   .source-missing { font-size: 12px; color: var(--text-muted); font-style: italic; }
-  details.pdf-viewer summary { cursor: pointer; font-size: 13px; font-weight: 700; color: var(--series-1); list-style: none; display: inline-flex; align-items: center; gap: 6px; }
+  details.pdf-viewer summary { cursor: pointer; font-size: 13px; font-weight: 700; color: var(--text-primary); list-style: none; display: inline-flex; align-items: center; gap: 6px; }
   details.pdf-viewer summary::-webkit-details-marker { display: none; }
+  details.pdf-viewer .chevron { color: var(--text-muted); font-size: 13px; transition: transform 0.15s; }
+  details.pdf-viewer[open] .chevron { transform: rotate(180deg); }
   details.pdf-viewer .pdf-frame-wrap { margin-top: 10px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: #5b6470; }
   details.pdf-viewer iframe { width: 100%; height: 78vh; border: none; display: block; }
 
@@ -378,17 +366,17 @@
     </div>
     <div class="header-actions">
       <input type="search" class="search-box" id="searchBox" placeholder="Find in this pack…">
-      <button class="btn" id="presentToggle" onclick="togglePresent()" title="Zoom in for presenting on a screen">🖥️ Present</button>
-      <button class="btn" id="themeToggle" title="Toggle light/dark">🌓 Theme</button>
-      <button class="btn" onclick="window.print()">🖨️ Print / Save PDF</button>
-      <button class="btn" id="adminToggleBtn" onclick="toggleAdminMode()" title="Edit tags in this copy, then export a new file">🔒 Admin Mode</button>
+      <button class="btn" id="presentToggle" onclick="togglePresent()" title="Zoom in for presenting on a screen">Present</button>
+      <button class="btn" id="themeToggle" title="Toggle light/dark">Theme</button>
+      <button class="btn" onclick="window.print()">Print / Save PDF</button>
+      <button class="btn" id="adminToggleBtn" onclick="toggleAdminMode()" title="Edit tags in this copy, then export a new file">Admin Mode</button>
     </div>
   </header>
 
   <div class="admin-banner" id="adminBanner">
-    <span>✏️ Admin Mode — click any <b>For Noting / For Decision / For Approval</b> tag to change it. Edits only exist in this open browser tab until you export.</span>
+    <span>Admin Mode — click any <b>For Noting / For Decision / For Approval</b> tag to change it. Edits only exist in this open browser tab until you export.</span>
     <div style="display:flex;gap:8px;flex-wrap:wrap;">
-      <button class="btn primary" onclick="exportPack()">⬇ Export updated pack</button>
+      <button class="btn primary" onclick="exportPack()">Export updated pack</button>
       <button class="btn" onclick="toggleAdminMode()">Exit admin mode</button>
     </div>
   </div>
@@ -401,11 +389,11 @@
 <div class="tooltip" id="tooltip"></div>
 <div id="toast"></div>
 
-<button class="assistant-fab" id="assistantFab" onclick="toggleAssistant()">💬 Ask the pack</button>
+<button class="assistant-fab" id="assistantFab" onclick="toggleAssistant()">Ask the pack</button>
 <div class="assistant-panel" id="assistantPanel">
   <div class="assistant-header">
     <b>Ask the pack</b>
-    <button class="btn" onclick="toggleAssistant()">✕</button>
+    <button class="btn" onclick="toggleAssistant()">Close</button>
   </div>
   <p class="assistant-hint">Offline search across every report, KPI, risk and table in this pack — not a general chatbot, just fast lookup. Try "extreme risks", "overdue BCM", "SR6" or "whistleblower recoveries".</p>
   <div class="assistant-body" id="assistantBody"></div>
@@ -623,7 +611,7 @@ function barChartHtml(bc) {
   const tableId = 'bartbl-' + uid;
   const tableRowsHtml = bc.items.map(i => `<tr><td>${esc(i.label)}</td><td>${esc(unitFmt(i.value))}</td></tr>`).join('');
   return `<div id="chartwrap-${uid}">
-    <div class="chart-toolbar"><button class="btn" onclick="toggleTableView(${uid})">📋 Table view</button></div>
+    <div class="chart-toolbar"><button class="btn" onclick="toggleTableView(${uid})">Table view</button></div>
     <div id="chart-${uid}">${rows}</div>
     <div id="table-${uid}" style="display:none" class="table-scroll">
       <table class="data-table" id="${tableId}"><thead><tr><th>Category</th><th>Value</th></tr></thead><tbody>${tableRowsHtml}</tbody></table>
@@ -698,7 +686,7 @@ function trendChartHtml(chart) {
 
   return `<div class="card">
     <h3 class="section-title" style="font-size:15px">${esc(chart.title)}</h3>
-    <div class="chart-toolbar"><button class="btn" onclick="toggleTableView(${uid})">📋 Table view</button></div>
+    <div class="chart-toolbar"><button class="btn" onclick="toggleTableView(${uid})">Table view</button></div>
     ${legendItems.length ? `<div class="legend">${legendItems.join('')}</div>` : ''}
     <div id="chart-${uid}"><svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;max-width:720px">${svgInner}</svg></div>
     <div id="table-${uid}" style="display:none" class="table-scroll">
@@ -753,10 +741,10 @@ function sourceHtml(sourceFile) {
   if (sourceFile && PACK_FILES[sourceFile]) {
     const uri = PACK_FILES[sourceFile];
     const isPdf = uri.startsWith('data:application/pdf');
-    const dl = `<a class="source-link btn" href="${uri}" download>📄 Download source document</a>`;
+    const dl = `<a class="source-link btn" href="${uri}" download>Download source document</a>`;
     if (!isPdf) return dl;
     return `<details class="pdf-viewer">
-      <summary>📄 View source document inline ▾</summary>
+      <summary><span>View source document inline</span><span class="chevron">▾</span></summary>
       <div class="pdf-frame-wrap"><iframe src="${uri}" loading="lazy"></iframe></div>
     </details>
     ${dl}`;
@@ -786,8 +774,8 @@ function reportPanelHtml(report) {
   html += kpiGridHtml(report.kpis);
   if ((report.sections || []).length) {
     html += `<div class="expand-toolbar">
-      <button class="btn" onclick="setAllDetails('panel-${report.id}', true)">⊕ Expand all</button>
-      <button class="btn" onclick="setAllDetails('panel-${report.id}', false)">⊖ Collapse all</button>
+      <button class="btn" onclick="setAllDetails('panel-${report.id}', true)">Expand all</button>
+      <button class="btn" onclick="setAllDetails('panel-${report.id}', false)">Collapse all</button>
     </div>`;
   }
   (report.sections || []).forEach((s, idx) => html += sectionHtml(s, `sec-${report.id}-${idx}`));
@@ -845,8 +833,8 @@ function mattersArisingPanelHtml() {
   html += kpiGridHtml(ma.kpis);
   if ((ma.groups || []).length) {
     html += `<div class="expand-toolbar">
-      <button class="btn" onclick="setAllDetails('panel-matters-arising', true)">⊕ Expand all</button>
-      <button class="btn" onclick="setAllDetails('panel-matters-arising', false)">⊖ Collapse all</button>
+      <button class="btn" onclick="setAllDetails('panel-matters-arising', true)">Expand all</button>
+      <button class="btn" onclick="setAllDetails('panel-matters-arising', false)">Collapse all</button>
     </div>`;
   }
   (ma.groups || []).forEach((g, idx) => {
@@ -1059,7 +1047,7 @@ let dirty = false;
 function toggleAdminMode() {
   adminMode = !adminMode;
   document.body.classList.toggle('admin-mode', adminMode);
-  document.getElementById('adminToggleBtn').textContent = adminMode ? '🔓 Exit Admin Mode' : '🔒 Admin Mode';
+  document.getElementById('adminToggleBtn').textContent = adminMode ? 'Exit Admin Mode' : 'Admin Mode';
 }
 function markDirty() { dirty = true; }
 window.addEventListener('beforeunload', (e) => {
