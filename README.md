@@ -8,9 +8,19 @@ to view it.
 
 Built for an Enterprise Risk Committee that also feeds into an Audit and Risk
 Committee, but the structure is generic enough for any committee that
-receives a Risk Management, Compliance Management, Business Continuity
-Management, Whistleblowing and Project Risk report each cycle, plus a
-rotating set of policies, procedures and one-off items.
+presents a Matters Arising tracker before five standing reports — Risk
+Management, Compliance Management, Business Continuity Management,
+Whistleblowing and Project Risk — each cycle, plus a rotating set of
+policies, procedures and one-off items.
+
+The shell (sidebar nav, splash screen, colours, logo) is branded per
+deployment. To rebrand: swap the two embedded `data:image/png;base64,...`
+sources on the `.sp-logo` and `.logo-badge` `<img>` tags in
+`build/template/pack_template.html`, and update the `--brand-navy` /
+`--brand-navy-2` / `--brand-orange` CSS variables. Everything is still one
+self-contained file: no CDN fonts, no PDF.js, no external calls — native
+browser rendering only (including for the inline source-PDF viewer), so it
+opens identically online or off.
 
 ## How it works
 
@@ -32,8 +42,11 @@ rotating set of policies, procedures and one-off items.
    ```
 
 4. **You attach `dist/committee-pack.html` to an email.** Recipients
-   double-click it and it opens in their browser — tabs, search, sortable
-   tables, dark mode, and a print/PDF button all work offline.
+   double-click it and it opens in their browser — sidebar navigation, a
+   branded splash screen, search, sortable tables, an inline viewer for any
+   attached source PDF (native browser PDF rendering, no PDF.js), a
+   "Present" mode that zooms in for showing on a screen, dark mode, and a
+   print/PDF button — all work offline.
 
 ## Admin Mode — adjusting Noting/Decision/Approval without re-running Python
 
@@ -93,6 +106,13 @@ each report's KPIs/sections, and the `other_items` bucket.
   item at the top of that specific report's tab (e.g. a "For Approval" item
   about BCM shows on both Overview and the Business Continuity tab), so a
   committee member who jumps straight to one report doesn't miss it.
+- `matters_arising` — a **standalone standing tab**, presented before the
+  five reports at every sitting, tracking resolutions from prior meetings
+  across every category. It is not part of any one report — don't fold its
+  rows back into a report's `sections`. Has its own `kpis` and a `groups`
+  list (each group is a heading + table — e.g. "General matters arising" vs
+  "Matters arising — ERMC reports"). Omit the whole key in a cycle with
+  nothing to carry forward; the tab still shows with an empty state.
 - `reports` — a **fixed list of five standing reports** (Risk Management,
   Compliance Management, Business Continuity Management, Whistleblowing,
   Project Risk). These always appear as tabs, cycle to cycle, even if one

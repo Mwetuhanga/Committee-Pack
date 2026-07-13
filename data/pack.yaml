@@ -70,6 +70,29 @@ key_information:
       Cloud vendor concentration (RM-014) is rated Extreme. Treatment plan and
       owner are set out in the Risk Management Report tab.
 
+# A standalone standing item — presented at every sitting BEFORE the core
+# reports, tracking resolutions from prior meetings across every category.
+# Not part of any one report; do not fold its rows back into `reports`.
+matters_arising:
+  meeting_reference: "Matters arising from the Q1 2026 sitting, tracked as at Q2 2026"
+  kpis:
+    - {label: "Items tracked", value: "3", status: "neutral"}
+    - {label: "Completed", value: "1", status: "good"}
+    - {label: "Overdue", value: "1", status: "critical"}
+    - {label: "In progress", value: "1", status: "warning"}
+  groups:
+    - heading: "General matters arising"
+      table:
+        columns: ["No.", "Item", "Resolution", "Current update", "Responsible", "Status"]
+        rows:
+          - ["1", "Vendor contract renewal cadence", "Procurement to propose a standard renewal-notice lead time for critical vendor contracts.", "Draft proposal circulated for comment.", "Head of Procurement", "In progress"]
+          - ["2", "Whistleblowing hotline awareness", "Comms to run a refresher campaign on the speak-up channel.", "Campaign completed in Q2.", "Head of Comms", "Completed"]
+    - heading: "Matters arising — standing reports"
+      table:
+        columns: ["No.", "Item", "Resolution", "Current update", "Responsible", "Status"]
+        rows:
+          - ["3", "Risk Management Report", "Cloud vendor concentration (RM-014) treatment plan to be finalised.", "Still pending sign-off from CISO.", "CISO", "Overdue"]
+
 reports:
   - id: risk_management
     label: "Risk Management Report"
