@@ -93,12 +93,6 @@
   /* ---------- Main / topbar ---------- */
   #main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
   #topbar { background: var(--surface-1); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 14px; padding: 12px clamp(16px, 3vw, 26px); flex-wrap: wrap; }
-  .confidential-banner {
-    background: var(--status-critical-bg); color: var(--status-critical); font-weight: 700; font-size: 12px;
-    letter-spacing: 0.02em; text-align: center; padding: 6px 12px; text-transform: uppercase;
-  }
-  .topbar-titles { min-width: 0; }
-  .topbar-titles .meta-line { color: var(--text-muted); font-size: 12px; margin: 1px 0 0; }
   .header-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-left: auto; }
   .btn {
     font: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
@@ -283,11 +277,7 @@
 </aside>
 
 <div id="main">
-  <div class="confidential-banner" id="confBanner"></div>
   <header id="topbar">
-    <div class="topbar-titles">
-      <p class="meta-line" id="hMeta"></p>
-    </div>
     <div class="header-actions">
       <button class="btn" id="presentToggle" onclick="togglePresent()" title="Zoom in for presenting on a screen">Present</button>
       <button class="btn" id="adminToggleBtn" onclick="toggleAdminMode()" title="Edit tags in this copy, then export a new file">Admin Mode</button>
@@ -360,9 +350,6 @@ document.addEventListener('mouseleave', hideTooltip, true);
 /* ---------- Header ---------- */
 function renderHeader() {
   const m = PACK_DATA.meeting;
-  document.getElementById('confBanner').textContent = m.confidentiality || '';
-  const bits = [m.cycle_label, m.meeting_date, m.location].filter(Boolean);
-  document.getElementById('hMeta').textContent = bits.join(' · ');
   document.getElementById('spBrand').textContent = m.entity;
   document.title = `${m.entity} — ${m.committee} Pack`;
 }
