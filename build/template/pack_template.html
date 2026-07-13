@@ -174,6 +174,12 @@
   .key-info-card { border-left: 3px solid var(--border-strong); }
   .key-info-card h3 { margin: 8px 0 4px; font-size: 15px; }
   .key-info-card p { margin: 0; color: var(--text-secondary); font-size: 14px; }
+  .key-info-source { margin-top: 10px; font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .source-pill {
+    font: inherit; font-size: 12px; font-weight: 600; cursor: pointer; color: var(--series-1);
+    background: var(--chip); border: none; border-radius: 999px; padding: 3px 10px;
+  }
+  .source-pill:hover { background: var(--border-strong); }
 
   .report-nav-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; }
   .report-nav-card {
@@ -196,6 +202,7 @@
 
   /* Rating words render as plain text — the heatmap is the sole colour-coded element (deliberate) */
   .status-pill { font-size: inherit; font-weight: 500; color: inherit; }
+  .rating-flag { cursor: help; color: var(--status-warning); font-size: 12px; }
 
   .empty-state { text-align: center; padding: 40px 20px; color: var(--text-muted); }
   .empty-state .big { font-size: 15px; color: var(--text-secondary); margin-bottom: 4px; }
@@ -322,13 +329,16 @@ function bandColorVar(band) {
   return {Low:'--risk-low', Medium:'--risk-medium', High:'--risk-high', 'Very High':'--risk-veryhigh', Critical:'--risk-critical'}[band];
 }
 const BAND_SEVERITY = {Low: 0, Medium: 1, High: 2, 'Very High': 3, Critical: 4};
-// Rating shown is whatever the data file states for that item (`rating`), falling
-// back to the score-derived band only if the preparer didn't supply one. This is
-// deliberate: source registers sometimes label two same-scoring risks differently
-// (e.g. a technology risk called "Critical" for qualitative reasons even though its
-// numeric score matches a "Very High" band elsewhere) — the dashboard must not
-// silently overwrite the Committee's own stated rating.
-function itemBand(item) { return item.rating || ratingBand(item.likelihood * item.impact); }
+// The band shown (colour, heatmap placement, sort order) is always the score-derived
+// one, computed from the org's own Likelihood x Impact rating table — that table is the
+// single source of truth, so a score of 20 is always "Very High", never "Critical". A
+// source register's stated `rating` is still surfaced (see itemBandMismatch) when it
+// disagrees, as a data-quality flag for RMIA rather than a silent override — the two
+// previously diverging is exactly the kind of inconsistency the Committee needs to see.
+function itemBand(item) { return ratingBand(item.likelihood * item.impact); }
+function itemBandMismatch(item) {
+  return item.rating && item.rating !== itemBand(item) ? item.rating : null;
+}
 
 /* ---------- Tooltip ---------- */
 const tooltipEl = document.getElementById('tooltip');
@@ -382,7 +392,14 @@ function kpiGridHtml(kpis) {
 let tableCounter = 0;
 function tableHtml(table) {
   const id = 'tbl-' + (tableCounter++);
-  const rows = table.rows.map(r => `<tr>${r.map(c => `<td>${esc(c)}</td>`).join('')}</tr>`).join('');
+  // Rows carry a data-status attribute whenever the table has a "Status" column, so
+  // any panel (e.g. Matters Arising) can offer status filter chips without each table
+  // needing its own bespoke markup. Harmless no-op for tables nothing reads it on.
+  const statusIdx = table.columns.findIndex(c => c.trim().toLowerCase() === 'status');
+  const rows = table.rows.map(r => {
+    const statusAttr = statusIdx >= 0 ? ` data-status="${esc(String(r[statusIdx] ?? '').toLowerCase())}"` : '';
+    return `<tr${statusAttr}>${r.map(c => `<td>${esc(c)}</td>`).join('')}</tr>`;
+  }).join('');
   const headers = table.columns.map((c,i) => `<th data-col="${i}">${esc(c)}</th>`).join('');
   return `<div class="table-scroll">
     <table class="data-table" id="${id}">
@@ -426,14 +443,14 @@ function riskMatrixHtml(rm, uid) {
     for (let likelihood = 1; likelihood <= 5; likelihood++) {
       const items = grid[likelihood + '-' + impact] || [];
       const score = likelihood * impact;
-      // cell color = most severe stated rating among items sharing this cell
-      const band = items.length
-        ? items.map(itemBand).sort((a,b) => BAND_SEVERITY[b]-BAND_SEVERITY[a])[0]
-        : ratingBand(score);
+      const band = ratingBand(score);
       const colorVar = bandColorVar(band);
       const labels = items.map(i => esc(i.id)).join(' · ');
       const tipText = items.length
-        ? `Score ${score}<br>` + items.map(i => `${esc(i.id)} (${esc(itemBand(i))}): ${esc(i.label)}`).join('<br>')
+        ? `Score ${score}<br>` + items.map(i => {
+            const mismatch = itemBandMismatch(i);
+            return `${esc(i.id)}: ${esc(i.label)}` + (mismatch ? ` <i>(source register states "${esc(mismatch)}")</i>` : '');
+          }).join('<br>')
         : `${band} (score ${score}) — no risks in this cell`;
       cells += `<td class="hm-cell" style="background:var(${colorVar})" data-tip="${esc(tipText)}">${labels}</td>`;
     }
@@ -449,7 +466,11 @@ function riskMatrixHtml(rm, uid) {
   const sorted = [...rm.items].sort((a,b) => BAND_SEVERITY[itemBand(b)] - BAND_SEVERITY[itemBand(a)] || (b.likelihood*b.impact) - (a.likelihood*a.impact));
   const detailRows = sorted.map(i => {
     const band = itemBand(i);
-    return `<tr><td>${esc(i.id)}</td><td>${esc(i.label)}</td><td><span class="status-pill" data-band="${esc(band)}">${esc(band)}</span></td><td>${i.likelihood*i.impact}</td><td>${esc(i.owner)}</td><td>${esc(i.status)}</td></tr>`;
+    const mismatch = itemBandMismatch(i);
+    const flag = mismatch
+      ? ` <span class="rating-flag" data-tip="Source risk register states &quot;${esc(mismatch)}&quot; for this risk. A score of ${i.likelihood*i.impact} computes to ${esc(band)} per the rating table (Critical 21&ndash;25, Very High 16&ndash;20, High 11&ndash;15, Medium 6&ndash;10, Low 1&ndash;5).">&#9888;</span>`
+      : '';
+    return `<tr><td>${esc(i.id)}</td><td>${esc(i.label)}</td><td><span class="status-pill" data-band="${esc(band)}">${esc(band)}</span>${flag}</td><td>${i.likelihood*i.impact}</td><td>${esc(i.owner)}</td><td>${esc(i.status)}</td></tr>`;
   }).join('');
 
   return `<div class="heatmap-wrap">
@@ -587,11 +608,27 @@ function sectionHtml(section, id) {
 
 /* ---------- Key information filtered to a specific report ---------- */
 const TAG_CYCLE = ['For Noting', 'For Decision', 'For Approval'];
-function keyInfoHtml(item, index) {
+function reportLabel(reportId) {
+  if (reportId === 'matters-arising') return 'Matters Arising';
+  return (PACK_DATA.reports || []).find(r => r.id === reportId)?.label || reportId;
+}
+// On Overview, each card names the report(s) it arose from and jumps straight there —
+// the item's own body is already the full text, so there's no hidden detail behind a
+// click; what a reader actually needs from "more context" is provenance and a fast path
+// to the source report. Omitted when the card is already shown inside that report's own
+// tab (via keyInfoForReportHtml), since a self-link there would be redundant.
+function keyInfoHtml(item, index, opts = {}) {
+  const sources = opts.showSource === false ? [] : (item.applies_to || []);
+  const sourceLinks = sources.length
+    ? `<div class="key-info-source">Arises from: ${sources.map(id =>
+        `<button class="source-pill" onclick="activateTab('${esc(id)}')">${esc(reportLabel(id))}</button>`
+      ).join(' ')}</div>`
+    : '';
   return `<div class="card key-info-card" id="ki-${index}">
     <span class="tag-badge admin-clickable" data-tag="${esc(item.tag)}" onclick="cycleTag(${index})">${esc(item.tag)}</span>
     <h3>${esc(item.title)}</h3>
     <p>${esc(item.body).trim()}</p>
+    ${sourceLinks}
   </div>`;
 }
 function keyInfoForReportHtml(reportId) {
@@ -600,7 +637,7 @@ function keyInfoForReportHtml(reportId) {
   if (!indexed.length) return '';
   return `<div class="card" style="background:var(--page);border-style:dashed;">
     <h3 class="section-title" style="font-size:14px;color:var(--text-secondary)">For this Committee's attention</h3>
-    ${indexed.map(({k, i}) => keyInfoHtml(k, i)).join('')}
+    ${indexed.map(({k, i}) => keyInfoHtml(k, i, {showSource: false})).join('')}
   </div>`;
 }
 function cycleTag(index) {
@@ -712,11 +749,41 @@ function mattersArisingPanelHtml() {
       <button class="btn" onclick="setAllDetails('panel-matters-arising', true)">Expand all</button>
       <button class="btn" onclick="setAllDetails('panel-matters-arising', false)">Collapse all</button>
     </div>`;
+    html += mattersArisingStatusChipsHtml(ma.groups);
   }
   (ma.groups || []).forEach((g, idx) => {
     html += sectionHtml({heading: g.heading, table: g.table}, `sec-matters-arising-${idx}`);
   });
   return html;
+}
+// Status text on a matter is free-form prose (a matter often bundles several sub-actions,
+// e.g. "a - c Completed. d - Overdue."), so filtering matches by substring rather than
+// requiring the whole cell to equal one bucket — a matter can rightly show under more than
+// one chip. Only buckets actually present get a chip, so the bar never shows a dead filter.
+const MATTERS_STATUS_BUCKETS = [
+  {label: 'Overdue', kw: 'overdue'},
+  {label: 'In Progress', kw: 'progress'},
+  {label: 'Completed', kw: 'completed'},
+];
+function mattersArisingStatusChipsHtml(groups) {
+  const statusTexts = groups.flatMap(g => {
+    const idx = (g.table.columns || []).findIndex(c => c.trim().toLowerCase() === 'status');
+    if (idx < 0) return [];
+    return g.table.rows.map(r => String(r[idx] ?? '').toLowerCase());
+  });
+  const present = MATTERS_STATUS_BUCKETS.filter(b => statusTexts.some(t => t.includes(b.kw)));
+  if (!present.length) return '';
+  const chips = [{label: 'All', kw: 'all'}, ...present].map(b =>
+    `<button class="filter-chip${b.kw === 'all' ? ' active' : ''}" data-kw="${b.kw}" onclick="filterMattersArising('${b.kw}', this)">${b.label}</button>`
+  ).join('');
+  return `<div class="other-items-toolbar">${chips}</div>`;
+}
+function filterMattersArising(kw, btn) {
+  btn.parentElement.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#panel-matters-arising tr[data-status]').forEach(tr => {
+    tr.style.display = (kw === 'all' || tr.dataset.status.includes(kw)) ? '' : 'none';
+  });
 }
 
 /* ---------- Other items tab ---------- */
